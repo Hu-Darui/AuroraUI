@@ -1,0 +1,19 @@
+# 忽略所有 .log 文件
+*.log
+
+# 忽略 node_modules 文件夹
+node_modules/
+
+# 忽略构建产物
+dist/
+build/
+out/
+
+# 忽略系统生成的临时文件
+.DS_Store
+Thumbs.db
+
+# 忽略 IDE 配置文件夹
+.vscode/
+.idea/
+.cache/
