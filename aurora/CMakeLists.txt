@@ -32,7 +32,19 @@ qt_add_qml_module(aurora
         Components/Button/ASplitButton.qml
         Components/Button/FABButton.qml
         Components/Button/ARadioButton.qml
+        Components/Button/ASwitch.qml
 
         Components/Input/AInput.qml
+        Components/Input/ATextBox.qml
+        Components/Input/ATextArea.qml
+        Components/Input/APasswordBox.qml
+        Components/Input/AComboBox.qml
+        Components/Input/ASpinBox.qml
+        Components/Input/ATextField.qml
+
+        Components/Controls/ACard.qml
+        Components/Controls/BaseContainer.qml
+
+        Components/Dialog/ADialog.qml
     RESOURCE_PREFIX /aurora
 )

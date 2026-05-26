@@ -85,4 +85,42 @@ Rectangle {
             AButton { text: "Large"; size: "lg"; variant: "secondary" }
         }
     }
+
+    // ── Switch 卡片 ──
+    Rectangle {
+        anchors {
+            top: parent.top; topMargin: 470
+            horizontalCenter: parent.horizontalCenter
+        }
+        width: 420; height: 110
+        radius: 12
+        color: Theme.elevated
+        border.color: Qt.rgba(0, 0, 0, 0.08)
+        border.width: 0.5
+
+        Text {
+            anchors { top: parent.top; topMargin: 20; left: parent.left; leftMargin: 24 }
+            text: "Switches"
+            font.pixelSize: 16; font.weight: Theme.weightSemiBold
+            font.family: Theme.fontFamily; color: Theme.text
+        }
+
+        Row {
+            anchors { top: parent.top; topMargin: 56; left: parent.left; leftMargin: 24 }
+            spacing: 24
+
+            Column { spacing: 4
+                ASwitch { id: sw1 }
+                Text { text: sw1.checked ? "ON" : "OFF"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary; anchors.horizontalCenter: parent.horizontalCenter }
+            }
+            Column { spacing: 4
+                ASwitch { id: sw2; checked: true }
+                Text { text: sw2.checked ? "ON" : "OFF"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary; anchors.horizontalCenter: parent.horizontalCenter }
+            }
+            Column { spacing: 4
+                ASwitch { id: sw3; enabled: false }
+                Text { text: "Disabled"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary; anchors.horizontalCenter: parent.horizontalCenter }
+            }
+        }
+    }
 }

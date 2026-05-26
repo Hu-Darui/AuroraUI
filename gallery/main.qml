@@ -94,14 +94,7 @@ ApplicationWindow {
     // ═══════════════════════════════════════
     Loader {
         anchors { top: toolbar.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
-        source: {
-            switch (Theme.style) {
-                case Theme.styleNeumorphism:   return "pages/NeumorphismPage.qml"
-                case Theme.styleLiquidGlass:   return "pages/LiquidGlassPage.qml"
-                case Theme.styleGlassmorphism: return "pages/GlassmorphismPage.qml"
-                default:                       return "pages/DefaultPage.qml"
-            }
-        }
+        source: "pages/GalleryPage.qml"
     }
 
     // ── 底部状态栏 ──

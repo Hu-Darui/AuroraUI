@@ -73,6 +73,7 @@ Rectangle {
             variant: Theme.isDark ? "primary" : "ghost"
             onClicked: Theme.isDark = true
         }
+        
     }
 
     // ── 玻璃卡片：按钮 ──
