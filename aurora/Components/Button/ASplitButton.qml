@@ -62,6 +62,7 @@ Item {
             shadowBlur:    0.3
             shadowVerticalOffset: 1
         }
+
     }
 
     // 主按钮区域

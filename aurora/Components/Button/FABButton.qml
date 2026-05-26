@@ -9,9 +9,9 @@ AButton {
     size: "lg" // FAB 通常较大
     
     background: Rectangle {
-        radius: root.height / 2 // 强制圆角
+        radius: root.height / 2
         color: root._bgColor
-        
+
         layer.enabled: true
         layer.effect: MultiEffect {
             shadowEnabled: true

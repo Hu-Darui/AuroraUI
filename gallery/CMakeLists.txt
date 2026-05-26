@@ -8,9 +8,13 @@ qt_add_qml_module(aurora_gallery
     VERSION 1.0
     QML_FILES
         main.qml
+        pages/DefaultPage.qml
+        pages/NeumorphismPage.qml
+        pages/LiquidGlassPage.qml
+        pages/GlassmorphismPage.qml
 )
 
-target_link_libraries(aurora_gallery PRIVATE 
+target_link_libraries(aurora_gallery PRIVATE
     Qt6::Quick
     Qt6::QuickControls2
     aurora
