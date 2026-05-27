@@ -10,7 +10,7 @@ ApplicationWindow {
     height: 820
     minimumWidth: 900
     minimumHeight: 640
-    title: "AuroraUI — Design Styles Gallery"
+    title: "AuroraUI — Design Styles Gallery  |  Developed by Hu-Darui"
     color: Theme.background
     flags: Qt.FramelessWindowHint | Qt.Window
 
@@ -28,7 +28,10 @@ ApplicationWindow {
         { name: "Overview", page: "pages/GalleryPage.qml",   icon: "▤" },
         { name: "Buttons",  page: "pages/ButtonsPage.qml",   icon: "◎" },
         { name: "Inputs",   page: "pages/InputsPage.qml",    icon: "▦" },
-        { name: "Dialogs",  page: "pages/DialogsPage.qml",   icon: "◰" }
+        { name: "Dialogs",    page: "pages/DialogsPage.qml",    icon: "◰" },
+        { name: "Navigation", page: "pages/NavigationPage.qml", icon: "☰" },
+        { name: "Feedback",   page: "pages/FeedbackPage.qml",   icon: "◎" },
+        { name: "Data",       page: "pages/DataPage.qml",       icon: "▤" }
     ]
 
     property int _currentNav: 0
@@ -95,15 +98,12 @@ ApplicationWindow {
             anchors { left: parent.left; leftMargin: 14; verticalCenter: parent.verticalCenter }
             spacing: 8
 
-            Rectangle {
-                width: 18; height: 18; radius: 5
-                color: Theme.primary
+            Image {
+                source: "qrc:/qt/qml/gallery/resources/icon.png"
+                width: 18; height: 18
                 anchors.verticalCenter: parent.verticalCenter
-                Text {
-                    anchors.centerIn: parent; text: "A"
-                    font.pixelSize: 10; font.weight: Font.Bold
-                    font.family: Theme.fontFamily; color: "#FFFFFF"
-                }
+                fillMode: Image.PreserveAspectFit
+                smooth: true
             }
             Text {
                 text: "AuroraUI Gallery"
@@ -230,35 +230,77 @@ ApplicationWindow {
             color: Theme.neuDarkShadow
         }
 
-        Column {
-            anchors.fill: parent
-            spacing: 0
+        // ── LiquidGlass: 毛玻璃效果 ──
+        Rectangle {
+            visible: Theme.style === Theme.styleLiquidGlass
+            anchors { fill: parent; margins: 3 }
+            radius: Theme.radiusLg
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: Theme.lgGradientA }
+                GradientStop { position: 0.3; color: Theme.lgGradientB }
+                GradientStop { position: 0.7; color: Theme.lgGradientC }
+                GradientStop { position: 1.0; color: Theme.lgGradientD }
+            }
+            opacity: 0.3
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                blurEnabled: true; blurMax: Theme.lgBlurAmount
+                blur: 0.7
+            }
+        }
 
-            // ── Logo ──
-            Item {
-                width: parent.width; height: 60
-                Row {
-                    anchors { left: parent.left; leftMargin: 20; verticalCenter: parent.verticalCenter }
-                    spacing: 10
-                    Rectangle {
-                        width: 28; height: 28; radius: 7
-                        color: Theme.primary
-                        anchors.verticalCenter: parent.verticalCenter
-                        Text {
-                            anchors.centerIn: parent; text: "A"
-                            font.pixelSize: 14; font.weight: Font.Bold
-                            font.family: Theme.fontFamily; color: "#FFFFFF"
-                        }
-                    }
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter; spacing: 0
-                        Text { text: "AuroraUI"; font.pixelSize: 14; font.weight: Theme.weightBold; font.family: Theme.fontFamily; color: Theme.text }
-                        Text { text: "Design Gallery"; font.pixelSize: 10; font.family: Theme.fontFamily; color: Theme.textSecondary }
-                    }
+        // ── LiquidGlass: 顶部光泽 ──
+        Rectangle {
+            visible: Theme.style === Theme.styleLiquidGlass
+            anchors { top: parent.top; left: parent.left; leftMargin: 2; right: parent.right; rightMargin: 2 }
+            height: parent.height * 0.4; radius: Theme.radiusLg
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
+                GradientStop { position: 0.6; color: Theme.lgShimmerHigh }
+                GradientStop { position: 1.0; color: "transparent" }
+            }
+        }
+
+        // ── 固定 Logo ──
+        Item {
+            id: logoArea
+            anchors { top: parent.top; left: parent.left; right: parent.right }
+            height: 60
+            Row {
+                anchors { left: parent.left; leftMargin: 20; verticalCenter: parent.verticalCenter }
+                spacing: 10
+                Image {
+                    source: "qrc:/qt/qml/gallery/resources/icon.png"
+                    width: 28; height: 28
+                    anchors.verticalCenter: parent.verticalCenter
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                }
+                Column {
+                    anchors.verticalCenter: parent.verticalCenter; spacing: 0
+                    Text { text: "AuroraUI"; font.pixelSize: 14; font.weight: Theme.weightBold; font.family: Theme.fontFamily; color: Theme.text }
+                    Text { text: "Design Gallery"; font.pixelSize: 10; font.family: Theme.fontFamily; color: Theme.textSecondary }
                 }
             }
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 0.5
+                color: Theme.isDark ? Qt.rgba(1,1,1,0.06) : Qt.rgba(0,0,0,0.06)
+            }
+        }
 
-            Rectangle { width: parent.width - 32; anchors.horizontalCenter: parent.horizontalCenter; height: 0.5; color: Theme.isDark ? Qt.rgba(1,1,1,0.06) : Qt.rgba(0,0,0,0.06) }
+        // ── 可滚动内容 ──
+        ScrollView {
+            anchors { top: logoArea.bottom; bottom: parent.bottom; bottomMargin: 30; left: parent.left; right: parent.right }
+            contentWidth: availableWidth
+            clip: true
+            ScrollBar.vertical.policy: ScrollBar.AsNeeded
+
+            Column {
+                width: parent.width
+                spacing: 0
 
             // ── 风格选择 ──
             Column {
@@ -436,15 +478,18 @@ ApplicationWindow {
                     }
                 }
             }
-        }
+        } // inner Column
+        } // ScrollView
     }
 
     // 侧边栏底部版本
     Text {
+        id: versionText
         anchors { bottom: sidebar.bottom; bottomMargin: 10; left: sidebar.left; leftMargin: 20 }
-        text: "AuroraUI v1.0  ·  Qt 6.8"
+        text: "AuroraUI v1.0  ·  Qt 6.8\nby Hu-Darui"
         font.pixelSize: 10; font.family: Theme.fontFamily
         color: Theme.textSecondary; opacity: 0.5; z: 11
+        horizontalAlignment: Text.AlignLeft
     }
 
     // ═══════════════════════════════════════
@@ -471,7 +516,7 @@ ApplicationWindow {
 
         Text {
             anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
-            text: "AuroraUI v1.0"; font.pixelSize: 11
+            text: "Developed by Hu-Darui  |  AuroraUI v1.0"; font.pixelSize: 11
             font.family: Theme.fontFamily; color: Theme.textSecondary; opacity: 0.6
         }
     }

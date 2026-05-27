@@ -12,10 +12,15 @@ qt_add_qml_module(aurora_gallery
         pages/ButtonsPage.qml
         pages/InputsPage.qml
         pages/DialogsPage.qml
+        pages/NavigationPage.qml
+        pages/FeedbackPage.qml
+        pages/DataPage.qml
         pages/DefaultPage.qml
         pages/GlassmorphismPage.qml
         pages/LiquidGlassPage.qml
         pages/NeumorphismPage.qml
+    RESOURCES
+        ../resources/icon.png
 )
 
 target_link_libraries(aurora_gallery PRIVATE

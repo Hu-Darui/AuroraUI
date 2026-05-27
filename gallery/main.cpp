@@ -16,6 +16,9 @@ int main(int argc, char *argv[]) {
     s_prevHandler = qInstallMessageHandler(filterHandler);
     QQuickStyle::setStyle("Basic");
     QGuiApplication app(argc, argv);
+    app.setApplicationName("AuroraUI");
+    app.setApplicationVersion("1.0.0");
+    app.setOrganizationName("Hu-Darui");
     QQmlApplicationEngine engine;
     
     // 监听加载错误，方便调试

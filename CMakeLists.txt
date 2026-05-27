@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(AuroraUI VERSION 1.0.0 LANGUAGES CXX)
+project(AuroraUI VERSION 1.0.0 LANGUAGES CXX DESCRIPTION "Qt 6 QML UI Component Library — Developed by Hu-Darui")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

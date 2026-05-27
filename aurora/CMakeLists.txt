@@ -45,6 +45,20 @@ qt_add_qml_module(aurora
         Components/Controls/ACard.qml
         Components/Controls/BaseContainer.qml
 
+        Components/Navigation/ANavBar.qml
+        Components/Navigation/ATabBar.qml
+        Components/Navigation/ABreadcrumb.qml
+
+        Components/Feedback/AProgressBar.qml
+        Components/Feedback/AProgressCircle.qml
+        Components/Feedback/ABadge.qml
+        Components/Feedback/ATooltip.qml
+        Components/Feedback/ASkeleton.qml
+
+        Components/Data/AListView.qml
+        Components/Data/ATableView.qml
+        Components/Data/APagination.qml
+
         Components/Dialog/ADialog.qml
     RESOURCE_PREFIX /aurora
 )
