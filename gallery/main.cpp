@@ -1,10 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
-#include <QDebug>
 
+static QtMessageHandler s_prevHandler = nullptr;
+
+static void filterHandler(QtMsgType type, const QMessageLogContext &ctx, const QString &msg)
+{
+    if (type == QtWarningMsg && msg.contains("ShaderEffectSource"))
+        return;
+    if (s_prevHandler)
+        s_prevHandler(type, ctx, msg);
+}
 
 int main(int argc, char *argv[]) {
+    s_prevHandler = qInstallMessageHandler(filterHandler);
     QQuickStyle::setStyle("Basic");
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;

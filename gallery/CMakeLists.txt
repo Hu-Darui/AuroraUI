@@ -9,6 +9,13 @@ qt_add_qml_module(aurora_gallery
     QML_FILES
         main.qml
         pages/GalleryPage.qml
+        pages/ButtonsPage.qml
+        pages/InputsPage.qml
+        pages/DialogsPage.qml
+        pages/DefaultPage.qml
+        pages/GlassmorphismPage.qml
+        pages/LiquidGlassPage.qml
+        pages/NeumorphismPage.qml
 )
 
 target_link_libraries(aurora_gallery PRIVATE

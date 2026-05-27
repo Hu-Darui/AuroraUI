@@ -16,57 +16,59 @@ QtObject {
         readonly property color warning:       "#FBBF24"
         readonly property color danger:        "#F87171"
 
-        // 渐变基调（chromatic iridescence）
         readonly property color gradientA: "#7C3AED"
         readonly property color gradientB: "#3B82F6"
         readonly property color gradientC: "#06B6D4"
         readonly property color gradientD: "#8B5CF6"
 
-        // 光泽高光
         readonly property color shimmerHighlight: Qt.rgba(1, 1, 1, 0.09)
         readonly property color shimmerMid:        Qt.rgba(1, 1, 1, 0.03)
 
-        // 模糊参数
         readonly property real  blurAmount:       28
         readonly property real  surfaceOpacity:    0.40
         readonly property real  borderOpacity:     0.18
         readonly property real  highlightOpacity:  0.22
 
-        // 边光（流动边框）
         readonly property color borderGlow:    Qt.rgba(1, 1, 1, 0.15)
         readonly property real  borderWidth:   1.0
         readonly property color innerHighlight: Qt.rgba(1, 1, 1, 0.08)
     }
 
-    // ── Dark Mode（更深邃） ──
+    // ── Dark Mode（提高对比度，深而清晰） ──
     property QtObject dark: QtObject {
-        readonly property color background:    "#050510"
-        readonly property color surface:       Qt.rgba(0.06, 0.06, 0.12, 0.40)
-        readonly property color elevated:      Qt.rgba(0.10, 0.10, 0.18, 0.50)
-        readonly property color text:          "#D0D0E8"
-        readonly property color textSecondary: "#7878A8"
+        // 背景保持深邃但不要全黑
+        readonly property color background:    "#070718"
+        // 表面不透明度大幅提高，卡片与背景有明显分界
+        readonly property color surface:       Qt.rgba(0.14, 0.14, 0.26, 0.65)
+        readonly property color elevated:      Qt.rgba(0.20, 0.20, 0.33, 0.78)
+        // 文字更亮更高对比
+        readonly property color text:          "#E8E8F5"
+        readonly property color textSecondary: "#9A9AC0"
+        // 主色提亮
         readonly property color primary:       "#C4B5FD"
         readonly property color accent:        "#F9A8D4"
         readonly property color success:       "#6EE7B7"
         readonly property color warning:       "#FCD34D"
         readonly property color danger:        "#FCA5A5"
 
-        readonly property color gradientA: "#5B21B6"
-        readonly property color gradientB: "#1D4ED8"
-        readonly property color gradientC: "#0E7490"
-        readonly property color gradientD: "#6D28D9"
+        // 渐变色彩更饱和
+        readonly property color gradientA: "#6D28D9"
+        readonly property color gradientB: "#2563EB"
+        readonly property color gradientC: "#0891B2"
+        readonly property color gradientD: "#7C3AED"
 
-        readonly property color shimmerHighlight: Qt.rgba(1, 1, 1, 0.06)
-        readonly property color shimmerMid:        Qt.rgba(1, 1, 1, 0.02)
+        readonly property color shimmerHighlight: Qt.rgba(1, 1, 1, 0.08)
+        readonly property color shimmerMid:        Qt.rgba(1, 1, 1, 0.03)
 
-        readonly property real  blurAmount:       32
-        readonly property real  surfaceOpacity:    0.35
-        readonly property real  borderOpacity:     0.14
-        readonly property real  highlightOpacity:  0.16
+        readonly property real  blurAmount:       30
+        readonly property real  surfaceOpacity:    0.55
+        readonly property real  borderOpacity:     0.22
+        readonly property real  highlightOpacity:  0.20
 
-        readonly property color borderGlow:    Qt.rgba(1, 1, 1, 0.10)
-        readonly property real  borderWidth:   1.0
-        readonly property color innerHighlight: Qt.rgba(1, 1, 1, 0.05)
+        // 边框发光更明显
+        readonly property color borderGlow:    Qt.rgba(1, 1, 1, 0.18)
+        readonly property real  borderWidth:   1.2
+        readonly property color innerHighlight: Qt.rgba(1, 1, 1, 0.08)
     }
 
     // ── 动画 ──
@@ -74,7 +76,7 @@ QtObject {
     readonly property int shimmerDuration: 3000
     readonly property int flowDuration:    4000
 
-    // ── 半径（高度圆润） ──
+    // ── 半径 ──
     readonly property real radiusSm: 8
     readonly property real radiusMd: 14
     readonly property real radiusLg: 22

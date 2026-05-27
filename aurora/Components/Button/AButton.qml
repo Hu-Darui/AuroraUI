@@ -174,20 +174,18 @@ Button {
                 }
             }
 
-            // ── Glassmorphism: 顶部高光边框 ──
+            // ── Glassmorphism: 顶部高光（暗色模式下不显示） ──
             Rectangle {
-                visible: _isGls && variant !== "ghost"
+                visible: _isGls && variant !== "ghost" && !Theme.isDark
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                height: Theme.gmBorderWidth
+                height: 0.8
                 radius: parent.radius
-                color: root.pressed
-                       ? "transparent"
-                       : Theme.gmBorderHighlight
+                color: root.pressed ? "transparent" : Qt.rgba(1, 1, 1, 0.40)
             }
 
-            // ── 默认：顶部高光细线 ──
+            // ── 默认：顶部高光细线（暗色模式不显示） ──
             Rectangle {
-                visible: _isDef && (variant === "secondary" || variant === "primary" || variant === "destructive")
+                visible: _isDef && !Theme.isDark && (variant === "secondary" || variant === "primary" || variant === "destructive")
                 anchors { top: parent.top; left: parent.left; right: parent.right }
                 anchors.topMargin: 0.5
                 anchors.leftMargin: 1
