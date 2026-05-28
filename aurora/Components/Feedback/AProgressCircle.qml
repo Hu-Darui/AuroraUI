@@ -112,17 +112,6 @@ Control {
             color: Theme.text
         }
 
-        // ── LiquidGlass: 光泽覆盖 ──
-        Rectangle {
-            visible: root._isLiq
-            anchors.fill: parent; radius: width / 2
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                GradientStop { position: 0.4; color: Theme.lgShimmerHigh }
-                GradientStop { position: 0.5; color: "transparent" }
-                GradientStop { position: 1.0; color: "transparent" }
-            }
-        }
     }
 
     // 重绘触发

@@ -12,7 +12,7 @@ Rectangle {
     readonly property var _meta: ({
         "0": { name: "Default",       desc: "Original macOS-inspired Design System" },
         "1": { name: "Neumorphism",   desc: "Soft UI · Extruded & Inset Shadows" },
-        "2": { name: "Liquid Glass",  desc: "Chromatic Iridescence · Fluid Morphing · Ethereal Glow" },
+        "2": { name: "Liquid Glass",  desc: "Translucent · Adaptive · Content-first" },
         "3": { name: "Glassmorphism", desc: "Frosted Glass · Backdrop Blur · Vibrant Backgrounds" }
     }[String(Theme.style)])
 
@@ -27,14 +27,54 @@ Rectangle {
         layer.effect: MultiEffect { blurEnabled: true; blurMax: 64; blur: 1.0 }
     }
 
+    // ── LiquidGlass: macOS 风格壁纸 ──
     Rectangle {
         visible: Theme.style === Theme.styleLiquidGlass
         anchors.fill: parent; z: -1
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: Theme.lgGradientA }
-            GradientStop { position: 0.3; color: Theme.lgGradientB }
-            GradientStop { position: 0.7; color: Theme.lgGradientC }
-            GradientStop { position: 1.0; color: Theme.lgGradientD }
+        color: Theme.isDark ? "#0A0A2E" : "#E8E4F0"
+
+        Repeater {
+            model: [
+                { cx: 0.12, cy: 0.15, s: 0.28, c: Theme.isDark ? "#7722FF" : "#A0A0FF" },
+                { cx: 0.72, cy: 0.28, s: 0.24, c: Theme.isDark ? "#0055FF" : "#A0C8FF" },
+                { cx: 0.20, cy: 0.60, s: 0.22, c: Theme.isDark ? "#FF0077" : "#FFA0C0" },
+                { cx: 0.80, cy: 0.10, s: 0.18, c: Theme.isDark ? "#00AAFF" : "#80D0FF" },
+                { cx: 0.48, cy: 0.70, s: 0.16, c: Theme.isDark ? "#AA00FF" : "#C8A0FF" }
+            ]
+            delegate: Rectangle {
+                x: modelData.cx * parent.width - modelData.s * parent.width / 2
+                y: modelData.cy * parent.height - modelData.s * parent.width / 2
+                width: modelData.s * parent.width
+                height: width
+                radius: width / 2
+                color: modelData.c
+                opacity: Theme.isDark ? 0.28 : 0.22
+                layer.enabled: true
+                layer.effect: MultiEffect { blurEnabled: true; blur: 1.0; blurMax: 80 }
+            }
+        }
+
+        Repeater {
+            visible: Theme.isDark
+            model: 40
+            delegate: Rectangle {
+                property real rndX: Math.random()
+                property real rndY: Math.random()
+                property real rndS: Math.random()
+                property real rndD: Math.random()
+                x: rndX * parent.width
+                y: rndY * parent.height
+                width: rndS * 1.5 + 0.5
+                height: width
+                radius: width / 2
+                color: "white"
+                opacity: rndS * 0.5 + 0.1
+                SequentialAnimation on opacity {
+                    loops: Animation.Infinite
+                    NumberAnimation { to: 0.05; duration: rndD * 2000 + 1200; easing.type: Easing.InOutSine }
+                    NumberAnimation { to: 0.75; duration: rndD * 2000 + 1200; easing.type: Easing.InOutSine }
+                }
+            }
         }
     }
 
@@ -139,7 +179,7 @@ Rectangle {
                         }
                     }
 
-                    Column { spacing: 4
+                    Column { spacing: 4; width: parent.width
                         Text { text: "ATextArea"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
                         ATextArea { placeholderText: "Multi-line text..."; implicitWidth: parent.width }
                     }

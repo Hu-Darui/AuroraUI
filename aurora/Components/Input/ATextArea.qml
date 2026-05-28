@@ -73,12 +73,7 @@ ScrollView {
                 }
             }
 
-            Rectangle {
-                visible: root._isGls
-                anchors { top: parent.top; left: parent.left; right: parent.right }
-                height: 1; radius: parent.radius
-                color: textArea.activeFocus ? Qt.rgba(1,1,1,0.25) : Qt.rgba(1,1,1,0.06)
-            }
+
         }
     }
 }

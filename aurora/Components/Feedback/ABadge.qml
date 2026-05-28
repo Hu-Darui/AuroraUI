@@ -67,29 +67,6 @@ Control {
 
             Behavior on color { ColorAnimation { duration: Theme.durationFast } }
 
-            // ── LiquidGlass: 渐变底色 ──
-            Rectangle {
-                visible: root._isLiq
-                anchors.fill: parent; radius: parent.radius
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgGradientA }
-                    GradientStop { position: 1.0; color: Theme.lgGradientC }
-                }
-                opacity: 0.4
-            }
-
-            // ── LiquidGlass: 顶部光泽 ──
-            Rectangle {
-                visible: root._isLiq
-                anchors { top: parent.top; left: parent.left; right: parent.right }
-                height: parent.height * 0.5; radius: parent.radius
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                    GradientStop { position: 1.0; color: "transparent" }
-                }
-            }
-
-            // ── Glassmorphism: 边框高光 ──
             Rectangle {
                 visible: root._isGls
                 anchors { top: parent.top; left: parent.left; right: parent.right }

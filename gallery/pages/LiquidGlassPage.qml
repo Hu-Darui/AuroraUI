@@ -8,128 +8,146 @@ Rectangle {
     color: Theme.background
     anchors.fill: parent
 
-    // ── Timer 驱动的浮动光斑（替代 Date.now() 绑定） ──
-    property real _time: 0
-
-    Timer {
-        interval: 50; running: root.visible; repeat: true
-        onTriggered: root._time += 0.05
-    }
-
-    // ── 背景动态渐变 ──
+    // ── macOS 风格壁纸 ──
     Rectangle {
-        anchors.fill: parent
-        z: -1
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: Theme.lgGradientA }
-            GradientStop { position: 0.3; color: Theme.lgGradientB }
-            GradientStop { position: 0.7; color: Theme.lgGradientC }
-            GradientStop { position: 1.0; color: Theme.lgGradientD }
+        anchors.fill: parent; z: -1
+        color: Theme.isDark ? "#0A0A2E" : "#E8E4F0"
+
+        Repeater {
+            model: [
+                { cx: 0.12, cy: 0.15, s: 0.28, c: Theme.isDark ? "#7722FF" : "#A0A0FF" },
+                { cx: 0.72, cy: 0.28, s: 0.24, c: Theme.isDark ? "#0055FF" : "#A0C8FF" },
+                { cx: 0.20, cy: 0.60, s: 0.22, c: Theme.isDark ? "#FF0077" : "#FFA0C0" },
+                { cx: 0.80, cy: 0.10, s: 0.18, c: Theme.isDark ? "#00AAFF" : "#80D0FF" },
+                { cx: 0.48, cy: 0.70, s: 0.16, c: Theme.isDark ? "#AA00FF" : "#C8A0FF" }
+            ]
+            delegate: Rectangle {
+                x: modelData.cx * parent.width - modelData.s * parent.width / 2
+                y: modelData.cy * parent.height - modelData.s * parent.width / 2
+                width: modelData.s * parent.width
+                height: width
+                radius: width / 2
+                color: modelData.c
+                opacity: Theme.isDark ? 0.28 : 0.22
+                layer.enabled: true
+                layer.effect: MultiEffect { blurEnabled: true; blur: 1.0; blurMax: 80 }
+            }
+        }
+
+        Repeater {
+            visible: Theme.isDark
+            model: 40
+            delegate: Rectangle {
+                property real rndX: Math.random()
+                property real rndY: Math.random()
+                property real rndS: Math.random()
+                property real rndD: Math.random()
+                x: rndX * parent.width
+                y: rndY * parent.height
+                width: rndS * 1.5 + 0.5
+                height: width
+                radius: width / 2
+                color: "white"
+                opacity: rndS * 0.5 + 0.1
+                SequentialAnimation on opacity {
+                    loops: Animation.Infinite
+                    NumberAnimation { to: 0.05; duration: rndD * 2000 + 1200; easing.type: Easing.InOutSine }
+                    NumberAnimation { to: 0.75; duration: rndD * 2000 + 1200; easing.type: Easing.InOutSine }
+                }
+            }
         }
     }
 
-    // ── 浮动光斑（用 _time 驱动，不可见时不跑 Timer） ──
-    Repeater {
-        model: 4
-        Rectangle {
-            x: Math.sin(root._time / (2.0 + index * 0.6) + index * 1.5) * 120 + parent.width * (0.2 + index * 0.2) - 60
-            y: Math.cos(root._time / (2.2 + index * 0.5) + index) * 80 + parent.height * 0.3
-            width: 80 + index * 20; height: width
-            radius: width / 2
-            color: Qt.rgba(1, 1, 1, 0.03 + index * 0.01)
-            Behavior on x { NumberAnimation { duration: 300; easing.type: Easing.InOutSine } }
-            Behavior on y { NumberAnimation { duration: 300; easing.type: Easing.InOutSine } }
+    // ── 控件面板 ──
+    Rectangle {
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        height: 64; z: 10
+        color: Theme.isDark ? Qt.rgba(0.06, 0.06, 0.10, 0.92) : Qt.rgba(1, 1, 1, 0.85)
+
+        Row {
+            anchors.centerIn: parent
+            spacing: 32
+
+            Column { spacing: 3
+                Text {
+                    text: "透明度: " + (sliderOpacity.value).toFixed(2)
+                    font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary
+                }
+                ASlider {
+                    id: sliderOpacity
+                    from: 0.0; to: 1.0; stepSize: 0.01; value: 1.0
+                    implicitWidth: 140
+                }
+            }
+            Column { spacing: 3
+                Text {
+                    text: "液态程度: " + (sliderIntensity.value).toFixed(2)
+                    font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary
+                }
+                ASlider {
+                    id: sliderIntensity
+                    from: 0.0; to: 1.0; stepSize: 0.01; value: 1.0
+                    implicitWidth: 140
+                }
+            }
         }
     }
 
+    // ── 玻璃卡片 ──
     ScrollView {
-        anchors.fill: parent
+        anchors { top: parent.top; topMargin: 80; bottom: parent.bottom; left: parent.left; right: parent.right }
         contentWidth: availableWidth
-        contentHeight: contentColumn.implicitHeight + 60
+        contentHeight: contentColumn.implicitHeight + 40
 
         Column {
             id: contentColumn
             width: parent.width
-            spacing: 28
-            topPadding: 40
+            spacing: 24
+            topPadding: 20
 
-            // ── 标题 ──
-            Column {
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 4
-                Text {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "Liquid Glass"
-                    font.pixelSize: 28; font.weight: Theme.weightBold
-                    font.family: Theme.fontFamily; color: Theme.text
-                }
-                Text {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "Chromatic Iridescence · Fluid Morphing · Ethereal Glow"
-                    font.pixelSize: 12; font.family: Theme.fontFamily; color: Theme.textSecondary
-                }
-            }
-
-            // ── 按钮展示 ──
             ACard {
-                title: "Buttons"
-                width: 420
+                title: "Liquid Glass Card"
+                width: 440
                 anchors.horizontalCenter: parent.horizontalCenter
+                glassOpacity: sliderOpacity.value
+                glassIntensity: sliderIntensity.value
 
-                Column { spacing: 12
-                    Flow { width: parent.width; spacing: 14
+                Column { spacing: 12; width: parent.width
+                    Text {
+                        text: "glassOpacity: " + sliderOpacity.value.toFixed(2) +
+                              "  ·  glassIntensity: " + sliderIntensity.value.toFixed(2)
+                        font.pixelSize: 12; font.family: Theme.fontFamily; color: Theme.textSecondary
+                    }
+                    Row { spacing: 12
                         AButton { text: "Primary"; variant: "primary" }
                         AButton { text: "Secondary"; variant: "secondary" }
                         AButton { text: "Ghost"; variant: "ghost" }
-                        AButton { text: "Destructive"; variant: "destructive" }
-                        AButton { text: "Disabled"; enabled: false }
-                        AButton { text: "Loading"; loading: true }
-                    }
-                    Row { spacing: 12
-                        AButton { text: "Small"; size: "sm" }
-                        AButton { text: "Medium"; size: "md"; variant: "primary" }
-                        AButton { text: "Large"; size: "lg" }
                     }
                 }
             }
 
-            // ── 液态玻璃专属输入框 ──
             ACard {
-                title: "Liquid Glass Surface"
-                width: 420
+                title: "Input Components"
+                width: 440
                 anchors.horizontalCenter: parent.horizontalCenter
+                glassOpacity: sliderOpacity.value
+                glassIntensity: sliderIntensity.value
 
-                Rectangle {
-                    width: parent.width - 20; height: 40; radius: Theme.radiusMd
-                    color: Theme.surface
-                    border.width: 1.2
-                    border.color: Theme.border
-
-                    Rectangle {
-                        anchors.fill: parent; radius: parent.radius
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                            GradientStop { position: 0.5; color: Theme.lgShimmerHigh }
-                            GradientStop { position: 0.6; color: "transparent" }
-                            GradientStop { position: 1.0; color: "transparent" }
-                        }
+                Column { spacing: 12; width: parent.width
+                    Row { spacing: 12
+                        ATextBox { placeholderText: "Enter text..."; implicitWidth: 200 }
+                        APasswordBox { placeholderText: "Password"; implicitWidth: 200 }
                     }
-
-                    TextInput {
-                        anchors { fill: parent; leftMargin: 16; rightMargin: 16 }
-                        text: "Search..."
-                        font.pixelSize: 13; font.family: Theme.fontFamily
-                        color: Theme.textSecondary
-                        verticalAlignment: TextInput.AlignVCenter
-                    }
+                    ATextArea { placeholderText: "Multi-line text..."; implicitWidth: parent.width }
                 }
             }
 
-            // ── Switches ──
             ACard {
                 title: "Switches"
-                width: 420
+                width: 440
                 anchors.horizontalCenter: parent.horizontalCenter
+                glassOpacity: sliderOpacity.value
+                glassIntensity: sliderIntensity.value
 
                 Row { spacing: 24
                     Column { spacing: 4

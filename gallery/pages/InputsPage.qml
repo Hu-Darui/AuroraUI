@@ -31,7 +31,7 @@ Rectangle {
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: "ATextBox · APasswordBox · ATextArea · AComboBox · ASpinBox · ATextField · AInput"
+                    text: "ATextBox · APasswordBox · ATextArea · AComboBox · ASpinBox · ASlider · ATextField"
                     font.pixelSize: 12; font.family: Theme.fontFamily; color: Theme.textSecondary
                 }
             }
@@ -97,11 +97,11 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Column { spacing: 16; width: parent.width
-                    Column { spacing: 4
+                    Column { spacing: 4; width: parent.width
                         Text { text: "Multi-line"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
                         ATextArea { placeholderText: "Type your message here..."; implicitWidth: parent.width - 40 }
                     }
-                    Column { spacing: 4
+                    Column { spacing: 4; width: parent.width
                         Text { text: "Large + Read-only"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
                         ATextArea {
                             text: "This is read-only content.\nMultiple lines of text\ndisplayed here."
@@ -144,6 +144,36 @@ Rectangle {
                     Column { spacing: 4
                         Text { text: "Percentage"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
                         ASpinBox { from: 0; to: 100; value: 75; stepSize: 5; implicitWidth: 120 }
+                    }
+                }
+            }
+
+            // ── ASlider ──
+            ACard {
+                title: "ASlider"
+                width: 520
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Column { spacing: 16; width: parent.width
+                    Row { spacing: 24
+                        Column { spacing: 4
+                            Text { text: "Default (50%)"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
+                            ASlider { value: 0.5; implicitWidth: 200 }
+                        }
+                        Column { spacing: 4
+                            Text { text: "Small"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
+                            ASlider { value: 0.3; size: "sm"; implicitWidth: 160 }
+                        }
+                    }
+                    Row { spacing: 24
+                        Column { spacing: 4
+                            Text { text: "Large (75%)"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
+                            ASlider { value: 0.75; size: "lg"; implicitWidth: 200 }
+                        }
+                        Column { spacing: 4
+                            Text { text: "Step 10%"; font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary }
+                            ASlider { value: 0.4; stepSize: 0.1; implicitWidth: 160 }
+                        }
                     }
                 }
             }

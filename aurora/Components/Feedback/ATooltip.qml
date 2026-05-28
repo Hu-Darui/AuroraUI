@@ -45,28 +45,6 @@ ToolTip {
             radius: parent.radius + 3; color: Theme.neuDarkShadow
         }
 
-        // ── LiquidGlass: 渐变 + 光泽 ──
-        Rectangle {
-            visible: root._isLiq
-            anchors.fill: parent; radius: parent.radius
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgGradientA }
-                GradientStop { position: 0.5; color: Theme.lgGradientB }
-                GradientStop { position: 1.0; color: Theme.lgGradientD }
-            }
-            opacity: 0.3
-        }
-        Rectangle {
-            visible: root._isLiq
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            height: parent.height * 0.5; radius: parent.radius
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                GradientStop { position: 1.0; color: "transparent" }
-            }
-        }
-
-        // ── Glassmorphism: 边框 + 阴影 ──
         Rectangle {
             visible: root._isGls
             anchors { top: parent.top; left: parent.left; right: parent.right }

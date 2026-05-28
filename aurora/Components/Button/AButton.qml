@@ -138,42 +138,6 @@ Button {
             // ── Neumorphism: 表面凸起 ──
             // (颜色与背景相同，阴影提供深度)
 
-            // ── Liquid Glass: 内部渐变 ──
-            Rectangle {
-                visible: _isLiq && variant !== "ghost"
-                anchors.fill: parent
-                radius: parent.radius
-                z: -1
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgGradientA }
-                    GradientStop { position: 0.33; color: Theme.lgGradientB }
-                    GradientStop { position: 0.66; color: Theme.lgGradientC }
-                    GradientStop { position: 1.0; color: Theme.lgGradientD }
-                }
-
-                layer.enabled: true
-                layer.effect: MultiEffect {
-                    maskEnabled: true
-                    maskSource: bgRect
-                    blurEnabled: true
-                    blurMax:    Theme.lgBlurAmount * 0.7
-                    blur:       0.6
-                }
-            }
-
-            // ── Liquid Glass: 光泽覆盖层 ──
-            Rectangle {
-                visible: _isLiq && variant !== "ghost"
-                anchors.fill: parent
-                radius: parent.radius
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                    GradientStop { position: 0.5; color: Theme.lgShimmerHigh }
-                    GradientStop { position: 0.6; color: "transparent" }
-                    GradientStop { position: 1.0; color: "transparent" }
-                }
-            }
-
             // ── Glassmorphism: 顶部高光（暗色模式下不显示） ──
             Rectangle {
                 visible: _isGls && variant !== "ghost" && !Theme.isDark

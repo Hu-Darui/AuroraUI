@@ -88,17 +88,6 @@ Control {
                     }
                 }
 
-                // ── LiquidGlass: 微光泽层 ──
-                Rectangle {
-                    visible: root._isLiq
-                    anchors { top: parent.top; left: parent.left; right: parent.right }
-                    height: parent.height * 0.5; radius: parent.radius
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                        GradientStop { position: 1.0; color: "transparent" }
-                    }
-                    opacity: 0.5
-                }
             }
         }
     }

@@ -60,16 +60,59 @@ ApplicationWindow {
             layer.effect: MultiEffect { blurEnabled: true; blurMax: 64; blur: 1.0 }
         }
 
+        // ── LiquidGlass: macOS 风格壁纸 ──
         Rectangle {
             visible: Theme.style === Theme.styleLiquidGlass
             anchors.fill: parent
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgGradientA }
-                GradientStop { position: 0.3; color: Theme.lgGradientB }
-                GradientStop { position: 0.7; color: Theme.lgGradientC }
-                GradientStop { position: 1.0; color: Theme.lgGradientD }
+            color: Theme.isDark ? "#0A0A2E" : "#E8E4F0"
+
+            // 光晕球
+            Repeater {
+                model: [
+                    { cx: 0.15, cy: 0.18, s: 0.30, c: Theme.isDark ? "#7722FF" : "#A0A0FF" },
+                    { cx: 0.70, cy: 0.32, s: 0.26, c: Theme.isDark ? "#0055FF" : "#A0C8FF" },
+                    { cx: 0.22, cy: 0.62, s: 0.24, c: Theme.isDark ? "#FF0077" : "#FFA0C0" },
+                    { cx: 0.78, cy: 0.08, s: 0.20, c: Theme.isDark ? "#00AAFF" : "#80D0FF" },
+                    { cx: 0.45, cy: 0.72, s: 0.18, c: Theme.isDark ? "#AA00FF" : "#C8A0FF" }
+                ]
+                delegate: Rectangle {
+                    x: modelData.cx * parent.width - modelData.s * parent.width / 2
+                    y: modelData.cy * parent.height - modelData.s * parent.width / 2
+                    width: modelData.s * parent.width
+                    height: width
+                    radius: width / 2
+                    color: modelData.c
+                    opacity: Theme.isDark ? 0.28 : 0.22
+                    layer.enabled: true
+                    layer.effect: MultiEffect { blurEnabled: true; blur: 1.0; blurMax: 80 }
+                }
+            }
+
+            // 闪烁星星
+            Repeater {
+                visible: Theme.isDark
+                model: 50
+                delegate: Rectangle {
+                    property real rndX: Math.random()
+                    property real rndY: Math.random()
+                    property real rndS: Math.random()
+                    property real rndD: Math.random()
+                    x: rndX * parent.width
+                    y: rndY * parent.height
+                    width: rndS * 2 + 0.5
+                    height: width
+                    radius: width / 2
+                    color: "white"
+                    opacity: rndS * 0.5 + 0.1
+                    SequentialAnimation on opacity {
+                        loops: Animation.Infinite
+                        NumberAnimation { to: 0.05; duration: rndD * 2000 + 1200; easing.type: Easing.InOutSine }
+                        NumberAnimation { to: 0.75; duration: rndD * 2000 + 1200; easing.type: Easing.InOutSine }
+                    }
+                }
             }
         }
+
     }
 
     // ═══════════════════════════════════════
@@ -228,37 +271,6 @@ ApplicationWindow {
             visible: Theme.style === Theme.styleNeumorphism
             anchors { fill: parent; bottomMargin: -6; rightMargin: -6 }
             color: Theme.neuDarkShadow
-        }
-
-        // ── LiquidGlass: 毛玻璃效果 ──
-        Rectangle {
-            visible: Theme.style === Theme.styleLiquidGlass
-            anchors { fill: parent; margins: 3 }
-            radius: Theme.radiusLg
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgGradientA }
-                GradientStop { position: 0.3; color: Theme.lgGradientB }
-                GradientStop { position: 0.7; color: Theme.lgGradientC }
-                GradientStop { position: 1.0; color: Theme.lgGradientD }
-            }
-            opacity: 0.3
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                blurEnabled: true; blurMax: Theme.lgBlurAmount
-                blur: 0.7
-            }
-        }
-
-        // ── LiquidGlass: 顶部光泽 ──
-        Rectangle {
-            visible: Theme.style === Theme.styleLiquidGlass
-            anchors { top: parent.top; left: parent.left; leftMargin: 2; right: parent.right; rightMargin: 2 }
-            height: parent.height * 0.4; radius: Theme.radiusLg
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                GradientStop { position: 0.6; color: Theme.lgShimmerHigh }
-                GradientStop { position: 1.0; color: "transparent" }
-            }
         }
 
         // ── 固定 Logo ──

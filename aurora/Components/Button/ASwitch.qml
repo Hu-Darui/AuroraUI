@@ -91,18 +91,6 @@ Item {
             radius: parent.radius
             color: root.checked ? Qt.rgba(1, 1, 1, 0.3) : Qt.rgba(1, 1, 1, 0.08)
         }
-
-        // Liquid Glass: 渐变覆盖
-        Rectangle {
-            visible: _isLiq && root.checked
-            anchors.fill: parent
-            radius: parent.radius
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Theme.lgGradientA }
-                GradientStop { position: 1.0; color: Theme.lgGradientC }
-            }
-            opacity: 0.5
-        }
     }
 
     // ── 旋钮 ──

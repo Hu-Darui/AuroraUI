@@ -60,35 +60,6 @@ Control {
 
                 Behavior on width { NumberAnimation { duration: Theme.durationNormal; easing.type: Easing.OutCubic } }
 
-                // ── LiquidGlass: 渐变填充 + 光泽 ──
-                Rectangle {
-                    visible: root._isLiq
-                    anchors.fill: parent; radius: parent.radius
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Theme.lgGradientA }
-                        GradientStop { position: 0.5; color: Theme.lgGradientB }
-                        GradientStop { position: 1.0; color: Theme.lgGradientC }
-                    }
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        maskEnabled: true; maskSource: fill
-                        blurEnabled: true; blurMax: 12; blur: 0.4
-                    }
-                }
-
-                // ── LiquidGlass: 光泽覆盖 ──
-                Rectangle {
-                    visible: root._isLiq
-                    anchors.fill: parent; radius: parent.radius
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                        GradientStop { position: 0.45; color: Theme.lgShimmerHigh }
-                        GradientStop { position: 0.55; color: "transparent" }
-                        GradientStop { position: 1.0; color: "transparent" }
-                    }
-                }
-
-                // ── Glassmorphism: 顶部高光 ──
                 Rectangle {
                     visible: root._isGls
                     anchors { top: parent.top; left: parent.left; right: parent.right }

@@ -40,9 +40,11 @@ qt_add_qml_module(aurora
         Components/Input/APasswordBox.qml
         Components/Input/AComboBox.qml
         Components/Input/ASpinBox.qml
+        Components/Input/ASlider.qml
         Components/Input/ATextField.qml
 
         Components/Controls/ACard.qml
+        Components/Controls/GlassSurface.qml
         Components/Controls/BaseContainer.qml
 
         Components/Navigation/ANavBar.qml

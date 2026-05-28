@@ -112,16 +112,6 @@ Control {
                     height: 0.8; radius: parent.radius; color: Theme.gmBorderHighlight
                 }
 
-                // LiquidGlass: active gradient
-                Rectangle {
-                    visible: root._isLiq && modelData === root.currentPage
-                    anchors.fill: parent; radius: parent.radius
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Theme.lgGradientA }
-                        GradientStop { position: 1.0; color: Theme.lgGradientC }
-                    }
-                    opacity: 0.35
-                }
 
                 Text {
                     anchors.centerIn: parent
