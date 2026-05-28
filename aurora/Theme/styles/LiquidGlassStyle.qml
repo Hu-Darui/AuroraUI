@@ -21,52 +21,45 @@ QtObject {
         readonly property color danger:        "#FF3B30"
 
         // ── 页面背景（壁纸基色 + 光晕球颜色）──
-        // 浅色模式：淡紫蓝色调，接近 macOS Sequoia 默认壁纸
-        readonly property color gradientA:     "#D4D4F0"   // 左上 淡紫
-        readonly property color gradientB:     "#E2D4F0"   // 右上 淡粉紫
-        readonly property color gradientC:     "#D4E2F8"   // 左下 淡蓝
-        readonly property color gradientD:     "#F0D4E8"   // 右下 淡玫瑰
+        readonly property color gradientA:     "#D4D4F0"   
+        readonly property color gradientB:     "#E2D4F0"   
+        readonly property color gradientC:     "#D4E2F8"   
+        readonly property color gradientD:     "#F0D4E8"   
 
-        // 背景光晕球（散射光源）
-        readonly property color glowOrb0:      "#A0A0FF"   // 蓝紫
-        readonly property color glowOrb1:      "#C0A0FF"   // 紫
-        readonly property color glowOrb2:      "#FFA0C0"   // 玫瑰
-        readonly property color glowOrb3:      "#A0C8FF"   // 天蓝
-        readonly property color glowOrb4:      "#D0A0FF"   // 淡紫
+        readonly property color glowOrb0:      "#A0A0FF"   
+        readonly property color glowOrb1:      "#C0A0FF"   
+        readonly property color glowOrb2:      "#FFA0C0"   
+        readonly property color glowOrb3:      "#A0C8FF"   
+        readonly property color glowOrb4:      "#D0A0FF"   
         readonly property real  glowOrbOpacity: 0.30
 
         // ── 玻璃材质分层 ─────────────────────
-        // 主体填充：白色带透明，浅色下需要更高不透明度才有分层感
         readonly property color lgSurface:         Qt.rgba(1, 1, 1, 0.45)
         readonly property color lgSurfaceHover:    Qt.rgba(1, 1, 1, 0.60)
         readonly property color lgSurfacePressed:  Qt.rgba(1, 1, 1, 0.35)
 
-        // 边框：上边亮（高光），下边暗（厚度感）
+        // ✨【新增】浅色有色流体玻璃（完美匹配 #5E5CE6）
+        readonly property color lgPrimary:         Qt.rgba(0.37, 0.36, 0.90, 0.85) 
+        readonly property color lgPrimaryShadow:   Qt.rgba(0.37, 0.36, 0.90, 0.35) 
+
         readonly property color lgBorderTop:       Qt.rgba(1, 1, 1, 0.85)
         readonly property color lgBorderBottom:    Qt.rgba(0, 0, 0, 0.10)
         readonly property color lgBorderLeft:      Qt.rgba(1, 1, 1, 0.70)
         readonly property color lgBorderRight:     Qt.rgba(0, 0, 0, 0.06)
-        // 兼容旧字段
+        
         readonly property color borderGlow:        Qt.rgba(1, 1, 1, 0.75)
         readonly property real  borderWidth:       0.8
         readonly property color innerHighlight:    Qt.rgba(1, 1, 1, 0.80)
-
-        // 顶部 1px 高光条（玻璃最亮的反射边）
         readonly property color lgHighlight:       Qt.rgba(1, 1, 1, 0.92)
-
-        // 内部阴影（玻璃底部/内侧的阴影感，浅色较弱）
         readonly property color lgInnerShadow:     Qt.rgba(0, 0, 0, 0.05)
-
-        // 左上角漫反射光斑
         readonly property color lgSheen:           Qt.rgba(1, 1, 1, 0.55)
         readonly property real  lgSheenOpacity:    0.55
 
         // ── 棱镜折射色斑（彩虹效果）────────────
-        // 浅色模式下折射更明显，透明度稍高
-        readonly property color lgPrismA:          Qt.rgba(0.38, 0.58, 1.00, 0.12)  // 蓝
-        readonly property color lgPrismB:          Qt.rgba(1.00, 0.38, 0.65, 0.09)  // 粉
-        readonly property color lgPrismC:          Qt.rgba(0.38, 1.00, 0.75, 0.08)  // 青绿
-        readonly property color lgPrismD:          Qt.rgba(1.00, 0.85, 0.30, 0.07)  // 琥珀
+        readonly property color lgPrismA:          Qt.rgba(0.38, 0.58, 1.00, 0.12)  
+        readonly property color lgPrismB:          Qt.rgba(1.00, 0.38, 0.65, 0.09)  
+        readonly property color lgPrismC:          Qt.rgba(0.38, 1.00, 0.75, 0.08)  
+        readonly property color lgPrismD:          Qt.rgba(1.00, 0.85, 0.30, 0.07)  
 
         // ── 模糊与透明度参数 ──────────────────
         readonly property real  blurAmount:        28
@@ -80,7 +73,7 @@ QtObject {
         readonly property color shimmerMid:        Qt.rgba(1, 1, 1, 0.12)
         readonly property color shimmerEnd:        Qt.rgba(1, 1, 1, 0.00)
 
-        // ── 投影（组件悬浮阴影）──────────────
+        // ── 投影 ─────────────────────────────
         readonly property color dropShadow:        Qt.rgba(0, 0, 0, 0.18)
         readonly property real  shadowBlur:        20
         readonly property real  shadowOffset:      8
@@ -104,51 +97,45 @@ QtObject {
         readonly property color danger:        "#FF453A"
 
         // ── 页面背景（深色宇宙感）─────────────
-        readonly property color gradientA:     "#0A0A2E"   // 深蓝紫
-        readonly property color gradientB:     "#1A0533"   // 深紫
-        readonly property color gradientC:     "#0D1B4B"   // 深蓝
-        readonly property color gradientD:     "#001A33"   // 深海蓝
+        readonly property color gradientA:     "#0A0A2E"   
+        readonly property color gradientB:     "#1A0533"   
+        readonly property color gradientC:     "#0D1B4B"   
+        readonly property color gradientD:     "#001A33"   
 
-        // 背景光晕球（暗色下更鲜艳，制造深度）
-        readonly property color glowOrb0:      "#7722FF"   // 紫
-        readonly property color glowOrb1:      "#0055FF"   // 蓝
-        readonly property color glowOrb2:      "#FF0077"   // 玫红
-        readonly property color glowOrb3:      "#00AAFF"   // 天蓝
-        readonly property color glowOrb4:      "#AA00FF"   // 深紫
+        readonly property color glowOrb0:      "#7722FF"   
+        readonly property color glowOrb1:      "#0055FF"   
+        readonly property color glowOrb2:      "#FF0077"   
+        readonly property color glowOrb3:      "#00AAFF"   
+        readonly property color glowOrb4:      "#AA00FF"   
         readonly property real  glowOrbOpacity: 0.28
 
         // ── 玻璃材质分层 ─────────────────────
-        // 暗色下玻璃透明度低，依赖高光线和折射色体现材质
         readonly property color lgSurface:         Qt.rgba(1, 1, 1, 0.07)
         readonly property color lgSurfaceHover:    Qt.rgba(1, 1, 1, 0.13)
         readonly property color lgSurfacePressed:  Qt.rgba(1, 1, 1, 0.05)
 
-        // 边框
+        // ✨【新增】深色有色流体玻璃（完美匹配 #7D7AFF）
+        readonly property color lgPrimary:         Qt.rgba(0.49, 0.48, 1.00, 0.85) 
+        readonly property color lgPrimaryShadow:   Qt.rgba(0.49, 0.48, 1.00, 0.40) 
+
         readonly property color lgBorderTop:       Qt.rgba(1, 1, 1, 0.28)
         readonly property color lgBorderBottom:    Qt.rgba(1, 1, 1, 0.06)
         readonly property color lgBorderLeft:      Qt.rgba(1, 1, 1, 0.20)
         readonly property color lgBorderRight:     Qt.rgba(1, 1, 1, 0.04)
-        // 兼容旧字段
+        
         readonly property color borderGlow:        Qt.rgba(1, 1, 1, 0.22)
         readonly property real  borderWidth:       0.8
         readonly property color innerHighlight:    Qt.rgba(1, 1, 1, 0.18)
-
-        // 顶部高光条
         readonly property color lgHighlight:       Qt.rgba(1, 1, 1, 0.55)
-
-        // 内部阴影（暗色下更明显）
         readonly property color lgInnerShadow:     Qt.rgba(0, 0, 0, 0.30)
-
-        // 左上角漫反射光斑
         readonly property color lgSheen:           Qt.rgba(1, 1, 1, 0.10)
         readonly property real  lgSheenOpacity:    0.10
 
         // ── 棱镜折射色斑 ─────────────────────
-        // 暗色下折射色更饱和但透明度稍低
-        readonly property color lgPrismA:          Qt.rgba(0.40, 0.62, 1.00, 0.07)  // 蓝
-        readonly property color lgPrismB:          Qt.rgba(1.00, 0.40, 0.68, 0.06)  // 粉
-        readonly property color lgPrismC:          Qt.rgba(0.40, 1.00, 0.78, 0.06)  // 青绿
-        readonly property color lgPrismD:          Qt.rgba(1.00, 0.88, 0.32, 0.05)  // 琥珀
+        readonly property color lgPrismA:          Qt.rgba(0.40, 0.62, 1.00, 0.07)  
+        readonly property color lgPrismB:          Qt.rgba(1.00, 0.40, 0.68, 0.06)  
+        readonly property color lgPrismC:          Qt.rgba(0.40, 1.00, 0.78, 0.06)  
+        readonly property color lgPrismD:          Qt.rgba(1.00, 0.88, 0.32, 0.05)  
 
         // ── 模糊与透明度参数 ──────────────────
         readonly property real  blurAmount:        32
@@ -178,7 +165,7 @@ QtObject {
     readonly property int pressDuration:    80
 
     // ══════════════════════════════════════════
-    // 圆角（Liquid Glass 偏大圆角）
+    // 圆角
     // ══════════════════════════════════════════
     readonly property real radiusSm:   10
     readonly property real radiusMd:   16

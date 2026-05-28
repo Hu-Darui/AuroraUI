@@ -27,17 +27,13 @@ Button {
     // ═══════════════════════════════════════
     readonly property color _bgColor: {
         if (!enabled) return Theme.isDark ? "#2A2A2C" : "#F0F0F0"
-
-        // ── Neumorphism: 与背景同色 ──
         if (_isNeu) return Theme.background
-
-        // ── Liquid Glass: 玻璃风格（极淡填充 + 可见边框） ──
         if (_isLiq) {
             if (variant === "ghost") return "transparent"
+            // primary 用渐变，这里给 fallback 底色（渐变层叠在上面）
+            if (variant === "primary") return Theme.isDark ? Qt.rgba(0.20, 0.10, 0.60, 0.85) : Qt.rgba(0.20, 0.30, 0.90, 0.80)
             return Theme.isDark ? Qt.rgba(1, 1, 1, 0.07) : Qt.rgba(1, 1, 1, 0.35)
         }
-
-        // ── Default ──
         if (variant === "primary")     return Theme.isDark ? "#0A84FF" : "#0071E3"
         if (variant === "secondary")   return Theme.isDark ? "#3A3A3C" : "#FFFFFF"
         if (variant === "tinted")      return Theme.isDark ? Qt.rgba(0.04, 0.52, 1, 0.18) : Qt.rgba(0, 0.44, 0.89, 0.10)
@@ -50,23 +46,19 @@ Button {
     // ═══════════════════════════════════════
     readonly property color _fgColor: {
         if (!enabled) return Theme.isDark ? "#4A4A4E" : "#AAAAAA"
-
         if (_isNeu) {
             if (variant === "primary")     return Theme.primary
             if (variant === "destructive") return Theme.danger
             if (variant === "ghost")       return Theme.textSecondary
             return Theme.text
         }
-
         if (_isLiq) {
-            if (variant === "primary")     return Theme.primary
-            if (variant === "destructive") return Theme.danger
+            if (variant === "primary")     return "#FFFFFF"
+            if (variant === "destructive") return "#FFFFFF"
             if (variant === "ghost")       return Theme.primary
             if (variant === "tinted")      return Theme.primary
-            return Theme.text
+            return Theme.isDark ? Qt.rgba(1,1,1,0.85) : Qt.rgba(0,0,0,0.75)
         }
-
-        // Default
         if (variant === "primary")     return "#FFFFFF"
         if (variant === "secondary")   return Theme.text
         if (variant === "tinted")      return Theme.isDark ? "#0A84FF" : "#0071E3"
@@ -74,9 +66,6 @@ Button {
         return Theme.isDark ? "#0A84FF" : "#0071E3"
     }
 
-    // ═══════════════════════════════════════
-    // Neumorphism 阴影组件（light-shadow + dark-shadow）
-    // ═══════════════════════════════════════
     readonly property bool _neuRaised:  _isNeu && !root.pressed
     readonly property bool _neuPressed: _isNeu && root.pressed
 
@@ -84,6 +73,7 @@ Button {
     // background
     // ═══════════════════════════════════════
     background: Item {
+
         // ── Neumorphism: 亮面高光（左上） ──
         Rectangle {
             visible: root._neuRaised
@@ -112,23 +102,64 @@ Button {
         Rectangle {
             id: bgRect
             anchors.fill: parent
-            radius: {
-                if (_isNeu) return Theme.radiusMd
-                if (_isLiq) return Theme.radiusMd
-                return root._r
-            }
+            radius: _isNeu ? Theme.radiusMd : _isLiq ? Theme.radiusMd : root._r
             color: root._bgColor
 
             Behavior on color { ColorAnimation { duration: Theme.durationFast } }
 
-            // ── Neumorphism: 表面凸起 ──
-            // (颜色与背景相同，阴影提供深度)
+            // ── LiquidGlass primary: 渐变填充层 ──
+            Rectangle {
+                visible: root._isLiq && root.variant === "primary" && root.enabled
+                anchors.fill: parent
+                radius: parent.radius
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop { position: 0.0; color: Theme.isDark ? "#6622EE" : "#5544FF" }
+                    GradientStop { position: 1.0; color: Theme.isDark ? "#0055FF" : "#2288FF" }
+                }
+                opacity: root.pressed ? 0.80 : 1.0
+                Behavior on opacity { NumberAnimation { duration: 80 } }
+            }
 
-            // ── 默认：顶部高光细线（暗色模式不显示） ──
+            // ── LiquidGlass destructive: 渐变填充层 ──
+            Rectangle {
+                visible: root._isLiq && root.variant === "destructive" && root.enabled
+                anchors.fill: parent
+                radius: parent.radius
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop { position: 0.0; color: Theme.isDark ? "#FF2244" : "#FF3B30" }
+                    GradientStop { position: 1.0; color: Theme.isDark ? "#CC1122" : "#CC2020" }
+                }
+                opacity: root.pressed ? 0.80 : 1.0
+                Behavior on opacity { NumberAnimation { duration: 80 } }
+            }
+
+            // ── LiquidGlass: 顶部高光条 ──
+            Rectangle {
+                visible: root._isLiq && root.enabled && root.variant !== "ghost"
+                anchors {
+                    top: parent.top; topMargin: 1
+                    horizontalCenter: parent.horizontalCenter
+                }
+                width: parent.width * 0.65
+                height: 1
+                radius: 1
+                opacity: root.variant === "primary" ? 0.45 : (Theme.isDark ? 0.40 : 0.75)
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop { position: 0.0;  color: "transparent" }
+                    GradientStop { position: 0.30; color: "white" }
+                    GradientStop { position: 0.70; color: "white" }
+                    GradientStop { position: 1.0;  color: "transparent" }
+                }
+            }
+
+            // ── 默认：顶部高光细线 ──
             Rectangle {
                 visible: _isDef && !Theme.isDark && (variant === "secondary" || variant === "primary" || variant === "destructive")
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                anchors.topMargin: 0.5
+                anchors.topMargin:  0.5
                 anchors.leftMargin: 1
                 anchors.rightMargin: 1
                 height: 1
@@ -142,21 +173,25 @@ Button {
                 radius: parent.radius
                 color: {
                     if (_isNeu && root.pressed) return Theme.neuInsetDark
-                    if (root.pressed) return Qt.rgba(0, 0, 0, _isLiq ? 0.10 : 0.08)
+                    if (root.pressed) return Qt.rgba(0, 0, 0, _isLiq ? 0.12 : 0.08)
                     return "transparent"
                 }
                 Behavior on color { ColorAnimation { duration: 60 } }
             }
 
-            // ── Hover 高亮（非 neumorphism） ──
+            // ── Hover 高亮 ──
             Rectangle {
-                visible: !_isNeu && (variant === "secondary" || variant === "ghost" || variant === "tinted"
-                         || _isLiq)
+                visible: !_isNeu && (variant === "secondary" || variant === "ghost"
+                         || variant === "tinted" || _isLiq)
                 anchors.fill: parent
                 radius: parent.radius
                 color: {
                     if (!root.hovered || root.pressed) return "transparent"
-                    if (_isLiq) return Qt.rgba(1, 1, 1, 0.06)
+                    if (_isLiq) {
+                        if (root.variant === "primary" || root.variant === "destructive")
+                            return Qt.rgba(1, 1, 1, 0.12)
+                        return Qt.rgba(1, 1, 1, 0.10)
+                    }
                     return Qt.rgba(0, 0, 0, Theme.isDark ? 0.06 : 0.04)
                 }
                 Behavior on color { ColorAnimation { duration: 100 } }
@@ -165,7 +200,13 @@ Button {
             // ── 边框 ──
             property color _borderClr: {
                 if (_isNeu)  return "transparent"
-                if (_isLiq)  return Theme.isDark ? Qt.rgba(1, 1, 1, 0.22) : Qt.rgba(0, 0, 0, 0.12)
+                if (_isLiq) {
+                    if (variant === "primary" || variant === "destructive")
+                        return Qt.rgba(1, 1, 1, Theme.isDark ? 0.30 : 0.40)
+                    if (variant === "ghost")
+                        return Theme.isDark ? Qt.rgba(1,1,1,0.25) : Qt.rgba(0,0,0,0.18)
+                    return Theme.isDark ? Qt.rgba(1, 1, 1, 0.20) : Qt.rgba(1, 1, 1, 0.70)
+                }
                 if (variant === "secondary") return Theme.isDark ? "#48484A" : "#D1D1D6"
                 if (variant === "ghost")     return Theme.isDark ? "#0A84FF" : "#0071E3"
                 return "transparent"
@@ -174,28 +215,24 @@ Button {
             border.color: _borderClr
             border.width: {
                 if (_isNeu) return 0
-                if (_isLiq) return 0.8
+                if (_isLiq) return 1
                 if (variant === "secondary" || variant === "ghost") return 0.5
                 return 0
             }
 
-            // ── 阴影（非 neumorphism） ──
+            // ── 阴影 ──
             layer.enabled: !_isNeu && (_isLiq
                            || variant === "primary" || variant === "secondary" || variant === "destructive")
             layer.effect: MultiEffect {
                 shadowEnabled: true
                 shadowColor: {
-                    if (_isLiq) return Qt.rgba(0, 0, 0, 0.25)
+                    if (_isLiq && (root.variant === "primary" || root.variant === "destructive"))
+                        return Qt.rgba(0, 0, 0, 0.35)
+                    if (_isLiq) return Qt.rgba(0, 0, 0, 0.20)
                     return Qt.rgba(0, 0, 0, Theme.isDark ? 0.35 : 0.15)
                 }
-                shadowBlur: {
-                    if (_isLiq) return 0.5
-                    return 0.3
-                }
-                shadowVerticalOffset: {
-                    if (_isLiq) return 2
-                    return 1
-                }
+                shadowBlur: _isLiq ? 0.5 : 0.3
+                shadowVerticalOffset: _isLiq ? 3 : 1
             }
         }
     }
@@ -239,11 +276,11 @@ Button {
     }
 
     // ═══════════════════════════════════════
-    // 按下动画
+    // 按下缩放动画
     // ═══════════════════════════════════════
     scale: {
-        if (_isNeu && pressed) return 0.98  // neumorphism: 轻微下沉而非缩放
-        if (pressed) return 0.97
+        if (_isNeu && pressed) return 0.98
+        if (pressed) return 0.96
         return 1.0
     }
     Behavior on scale {
