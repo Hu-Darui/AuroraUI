@@ -13,19 +13,7 @@ Rectangle {
         "0": { name: "Default",       desc: "Original macOS-inspired Design System" },
         "1": { name: "Neumorphism",   desc: "Soft UI · Extruded & Inset Shadows" },
         "2": { name: "Liquid Glass",  desc: "Translucent · Adaptive · Content-first" },
-        "3": { name: "Glassmorphism", desc: "Frosted Glass · Backdrop Blur · Vibrant Backgrounds" }
     }[String(Theme.style)])
-
-    // ── 背景装饰 ──
-    Rectangle {
-        visible: Theme.style === Theme.styleGlassmorphism
-        anchors.fill: parent; z: -1
-        Rectangle { x: parent.width * 0.1; y: -80; width: 260;  height: 260;  radius: 130; color: Theme.gmBgGradientA; opacity: 0.55 }
-        Rectangle { x: parent.width * 0.55; y: parent.height * 0.15; width: 300;  height: 300;  radius: 150; color: Theme.gmBgGradientB; opacity: 0.45 }
-        Rectangle { x: parent.width * 0.25; y: parent.height * 0.55; width: 240;  height: 240;  radius: 120; color: Theme.gmBgGradientC; opacity: 0.4 }
-        layer.enabled: true
-        layer.effect: MultiEffect { blurEnabled: true; blurMax: 64; blur: 1.0 }
-    }
 
     // ── LiquidGlass: macOS 风格壁纸 ──
     Rectangle {

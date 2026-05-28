@@ -23,8 +23,6 @@ qt_add_qml_module(aurora
 
         Theme/styles/NeumorphismStyle.qml
         Theme/styles/LiquidGlassStyle.qml
-        Theme/styles/GlassmorphismStyle.qml
-
         Components/Button/AButton.qml
         Components/Button/AToggleButton.qml
         Components/Button/AIconButton.qml

@@ -15,7 +15,6 @@ ComboBox {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
 
     implicitHeight: _h
     implicitWidth:  140
@@ -27,7 +26,6 @@ ComboBox {
         if (!enabled) return Theme.isDark ? "#222224" : "#F5F5F5"
         if (_isNeu)  return Theme.background
         if (_isLiq)  return Qt.rgba(1, 1, 1, 0.08)
-        if (_isGls)  return Qt.rgba(1, 1, 1, 0.07)
         return Theme.isDark ? "#1C1C1E" : "#FFFFFF"
     }
 
@@ -35,7 +33,6 @@ ComboBox {
         if (popup.visible)  return Theme.primary
         if (_isNeu)         return "transparent"
         if (_isLiq)         return Theme.border
-        if (_isGls)         return Qt.rgba(1, 1, 1, 0.10)
         return Theme.isDark ? "#48484A" : "#D1D1D6"
     }
 
@@ -43,7 +40,7 @@ ComboBox {
         radius: root._r
         color: root._bg
         border.color: root._border
-        border.width: root._isNeu ? 0 : root._isGls ? 0.8 : 0.5
+        border.width: root._isNeu ? 0 : 0.5
 
         Behavior on border.color { ColorAnimation { duration: 80 } }
 
@@ -56,13 +53,6 @@ ComboBox {
                 radius: parent.radius; color: "transparent"
                 border.color: Theme.neuInsetLight; border.width: 0.5
             }
-        }
-
-        Rectangle {
-            visible: root._isGls
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            height: 1; radius: parent.radius
-            color: root.popup.visible ? Qt.rgba(1,1,1,0.25) : Qt.rgba(1,1,1,0.06)
         }
     }
 
@@ -91,7 +81,7 @@ ComboBox {
 
         background: Rectangle {
             radius: root._r
-            color: root._isLiq || root._isGls
+            color: root._isLiq
                    ? Qt.rgba(1, 1, 1, Theme.isDark ? 0.08 : 0.92)
                    : Theme.isDark ? "#2C2C30" : "#FFFFFF"
             border.color: root._isNeu ? "transparent" : Theme.isDark ? "#48484A" : "#E0E0E0"

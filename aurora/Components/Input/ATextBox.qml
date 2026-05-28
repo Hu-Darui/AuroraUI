@@ -15,7 +15,6 @@ TextField {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
 
     implicitHeight: _h
     implicitWidth:  160
@@ -31,7 +30,6 @@ TextField {
         if (!enabled) return Theme.isDark ? "#222224" : "#F5F5F5"
         if (_isNeu)  return Theme.background
         if (_isLiq)  return Qt.rgba(1, 1, 1, 0.08)
-        if (_isGls)  return Qt.rgba(1, 1, 1, 0.07)
         return Theme.isDark ? "#1C1C1E" : "#FFFFFF"
     }
 
@@ -40,7 +38,6 @@ TextField {
         if (activeFocus)    return Theme.primary
         if (_isNeu)         return "transparent"
         if (_isLiq)         return Theme.border
-        if (_isGls)         return Qt.rgba(1, 1, 1, 0.10)
         return Theme.isDark ? "#48484A" : "#D1D1D6"
     }
 
@@ -50,7 +47,7 @@ TextField {
         radius: root._r
         color: root._bg
         border.color: root._border
-        border.width: root._isNeu ? 0 : root._isGls ? 0.8 : 0.5
+        border.width: root._isNeu ? 0 : 0.5
 
         Behavior on border.color { ColorAnimation { duration: 80 } }
 
@@ -64,14 +61,6 @@ TextField {
                 radius: parent.radius; color: "transparent"
                 border.color: Theme.neuInsetLight; border.width: 0.5
             }
-        }
-
-        // Glassmorphism: 顶部高光
-        Rectangle {
-            visible: root._isGls
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            height: 1; radius: parent.radius
-            color: root.activeFocus ? Qt.rgba(1,1,1,0.25) : Qt.rgba(1,1,1,0.06)
         }
     }
 }

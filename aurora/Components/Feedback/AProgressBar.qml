@@ -11,22 +11,18 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     implicitWidth: 200
     implicitHeight: _isNeu ? 12 : _isLiq ? 8 : 6
 
     readonly property color _trackColor: {
         if (_isNeu) return Theme.background
         if (_isLiq) return Qt.rgba(1, 1, 1, 0.06)
-        if (_isGls) return Qt.rgba(1, 1, 1, 0.08)
         return Theme.isDark ? "#3A3A3C" : "#E5E5EA"
     }
 
     readonly property color _fillColor: {
         if (_isNeu) return Theme.primary
         if (_isLiq) return "#A78BFA"
-        if (_isGls) return "#818CF8"
         return Theme.primary
     }
 
@@ -60,13 +56,6 @@ Control {
 
                 Behavior on width { NumberAnimation { duration: Theme.durationNormal; easing.type: Easing.OutCubic } }
 
-                Rectangle {
-                    visible: root._isGls
-                    anchors { top: parent.top; left: parent.left; right: parent.right }
-                    height: 0.8; radius: parent.radius
-                    color: Theme.gmBorderHighlight
-                }
-
                 // ── Neumorphism: 凸起填充 ──
                 Rectangle {
                     visible: root._isNeu
@@ -89,16 +78,5 @@ Control {
             }
         }
 
-        // ── Glassmorphism: 底部阴影 ──
-        Rectangle {
-            visible: root._isGls && (root.value > 0 || root.indeterminate)
-            anchors { fill: track; topMargin: 3 }
-            radius: track.radius; color: "transparent"
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                shadowEnabled: true; shadowColor: Theme.gmDropShadow
-                shadowBlur: Theme.gmShadowBlur * 0.3; shadowVerticalOffset: Theme.gmShadowOffset * 0.5
-            }
-        }
     }
 }

@@ -14,8 +14,6 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     implicitWidth: 400
     implicitHeight: 36
 
@@ -36,13 +34,11 @@ Control {
     readonly property color _btnActiveBg: {
         if (_isNeu) return Theme.primary
         if (_isLiq) return Qt.rgba(0.65,0.55,0.95,0.30)
-        if (_isGls) return Qt.rgba(0.39,0.33,0.95,0.25)
         return Theme.primary
     }
     readonly property color _btnHoverBg: {
         if (_isNeu) return Qt.rgba(0.49,0.51,1,0.08)
         if (_isLiq) return Qt.rgba(1,1,1,0.06)
-        if (_isGls) return Qt.rgba(1,1,1,0.05)
         return Theme.isDark ? Qt.rgba(1,1,1,0.06) : Qt.rgba(0,0,0,0.04)
     }
 
@@ -104,14 +100,6 @@ Control {
                     anchors { fill: parent; bottomMargin: -1; rightMargin: -1 }
                     radius: parent.radius + 1; color: Theme.neuDarkShadow
                 }
-
-                // Glassmorphism: active top highlight
-                Rectangle {
-                    visible: root._isGls && modelData === root.currentPage
-                    anchors { top: parent.top; left: parent.left; right: parent.right }
-                    height: 0.8; radius: parent.radius; color: Theme.gmBorderHighlight
-                }
-
 
                 Text {
                     anchors.centerIn: parent

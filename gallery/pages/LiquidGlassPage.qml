@@ -58,44 +58,9 @@ Rectangle {
         }
     }
 
-    // ── 控件面板 ──
-    Rectangle {
-        anchors { top: parent.top; left: parent.left; right: parent.right }
-        height: 64; z: 10
-        color: Theme.isDark ? Qt.rgba(0.06, 0.06, 0.10, 0.92) : Qt.rgba(1, 1, 1, 0.85)
-
-        Row {
-            anchors.centerIn: parent
-            spacing: 32
-
-            Column { spacing: 3
-                Text {
-                    text: "透明度: " + (sliderOpacity.value).toFixed(2)
-                    font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary
-                }
-                ASlider {
-                    id: sliderOpacity
-                    from: 0.0; to: 1.0; stepSize: 0.01; value: 1.0
-                    implicitWidth: 140
-                }
-            }
-            Column { spacing: 3
-                Text {
-                    text: "液态程度: " + (sliderIntensity.value).toFixed(2)
-                    font.pixelSize: 11; font.family: Theme.fontFamily; color: Theme.textSecondary
-                }
-                ASlider {
-                    id: sliderIntensity
-                    from: 0.0; to: 1.0; stepSize: 0.01; value: 1.0
-                    implicitWidth: 140
-                }
-            }
-        }
-    }
-
     // ── 玻璃卡片 ──
     ScrollView {
-        anchors { top: parent.top; topMargin: 80; bottom: parent.bottom; left: parent.left; right: parent.right }
+        anchors { top: parent.top; topMargin: 24; bottom: parent.bottom; left: parent.left; right: parent.right }
         contentWidth: availableWidth
         contentHeight: contentColumn.implicitHeight + 40
 
@@ -109,15 +74,8 @@ Rectangle {
                 title: "Liquid Glass Card"
                 width: 440
                 anchors.horizontalCenter: parent.horizontalCenter
-                glassOpacity: sliderOpacity.value
-                glassIntensity: sliderIntensity.value
 
                 Column { spacing: 12; width: parent.width
-                    Text {
-                        text: "glassOpacity: " + sliderOpacity.value.toFixed(2) +
-                              "  ·  glassIntensity: " + sliderIntensity.value.toFixed(2)
-                        font.pixelSize: 12; font.family: Theme.fontFamily; color: Theme.textSecondary
-                    }
                     Row { spacing: 12
                         AButton { text: "Primary"; variant: "primary" }
                         AButton { text: "Secondary"; variant: "secondary" }
@@ -130,8 +88,6 @@ Rectangle {
                 title: "Input Components"
                 width: 440
                 anchors.horizontalCenter: parent.horizontalCenter
-                glassOpacity: sliderOpacity.value
-                glassIntensity: sliderIntensity.value
 
                 Column { spacing: 12; width: parent.width
                     Row { spacing: 12
@@ -146,8 +102,6 @@ Rectangle {
                 title: "Switches"
                 width: 440
                 anchors.horizontalCenter: parent.horizontalCenter
-                glassOpacity: sliderOpacity.value
-                glassIntensity: sliderIntensity.value
 
                 Row { spacing: 24
                     Column { spacing: 4

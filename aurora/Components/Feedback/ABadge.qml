@@ -11,8 +11,6 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     readonly property color _bg: {
         if (_isNeu) {
             switch (variant) {
@@ -67,19 +65,6 @@ Control {
 
             Behavior on color { ColorAnimation { duration: Theme.durationFast } }
 
-            Rectangle {
-                visible: root._isGls
-                anchors { top: parent.top; left: parent.left; right: parent.right }
-                height: 0.8; radius: parent.radius
-                color: Theme.gmBorderHighlight
-            }
-
-            // ── Glassmorphism: shadow ──
-            layer.enabled: root._isGls
-            layer.effect: MultiEffect {
-                shadowEnabled: true; shadowColor: Theme.gmDropShadow
-                shadowBlur: Theme.gmShadowBlur * 0.2; shadowVerticalOffset: Theme.gmShadowOffset * 0.3
-            }
         }
     }
 

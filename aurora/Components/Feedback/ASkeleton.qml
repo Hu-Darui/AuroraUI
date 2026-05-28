@@ -13,19 +13,15 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     readonly property color _base: {
         if (_isNeu) return Theme.elevated
         if (_isLiq) return Qt.rgba(1, 1, 1, 0.04)
-        if (_isGls) return Qt.rgba(1, 1, 1, 0.06)
         return Theme.isDark ? Qt.rgba(1, 1, 1, 0.07) : Qt.rgba(0, 0, 0, 0.05)
     }
 
     readonly property color _highlight: {
         if (_isNeu) return Qt.rgba(1, 1, 1, 0.35)
         if (_isLiq) return Qt.rgba(1, 1, 1, 0.14)
-        if (_isGls) return Qt.rgba(1, 1, 1, 0.12)
         return Theme.isDark ? Qt.rgba(1, 1, 1, 0.13) : Qt.rgba(1, 1, 1, 0.55)
     }
 
@@ -55,13 +51,6 @@ Control {
                     visible: root._isNeu
                     anchors.fill: parent; radius: parent.radius; color: "transparent"
                     border.color: Theme.neuInsetDark; border.width: 0.8
-                }
-
-                // ── Glassmorphism: 边框 ──
-                Rectangle {
-                    visible: root._isGls
-                    anchors.fill: parent; radius: parent.radius; color: "transparent"
-                    border.color: Qt.rgba(1, 1, 1, 0.06); border.width: 0.5
                 }
 
                 // Shimmer sweep

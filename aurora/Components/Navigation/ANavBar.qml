@@ -1,13 +1,12 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import aurora 1.0
 
 Control {
     id: root
 
-    // position: "top" | "bottom" | "left" | "right"
     property string position: "left"
-    // model: [{ icon: "", label: "", badge: 0 }]
     property var model: []
     property int currentIndex: 0
 
@@ -16,10 +15,9 @@ Control {
     readonly property bool _horiz: position === "top" || position === "bottom"
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
 
     readonly property color _bg: {
-        if (_isNeu) return Theme.elevated
+        if (_isLiq) return Theme.isDark ? Qt.rgba(1,1,1,0.05) : Qt.rgba(1,1,1,0.30)
         return Theme.elevated
     }
 
@@ -42,11 +40,27 @@ Control {
             radius: parent.radius + 5; color: Theme.neuDarkShadow
         }
 
-        // Glassmorphism top highlight
+        // LiquidGlass: 顶部高光
         Rectangle {
-            visible: root._isGls && root._horiz && root.position === "top"
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            height: 0.8; color: Theme.gmBorderHighlight
+            visible: root._isLiq
+            anchors { top: parent.top; topMargin: 0.5; horizontalCenter: parent.horizontalCenter }
+            width: parent.width * 0.5; height: 0.8
+            radius: 1
+            opacity: Theme.isDark ? 0.35 : 0.30
+            gradient: Gradient {
+                orientation: Gradient.Horizontal
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 0.5; color: "white" }
+                GradientStop { position: 1.0; color: "transparent" }
+            }
+        }
+
+        // LiquidGlass: 底部边框
+        Rectangle {
+            visible: root._isLiq && root._horiz
+            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+            height: 0.5
+            color: Theme.isDark ? Qt.rgba(1,1,1,0.12) : Qt.rgba(0,0,0,0.08)
         }
     }
 
@@ -71,16 +85,31 @@ Control {
                 color: {
                     if (root.currentIndex === index) {
                         if (root._isNeu) return Theme.background
-                        if (root._isLiq) return Qt.rgba(1, 1, 1, 0.10)
-                        if (root._isGls) return Qt.rgba(1, 1, 1, 0.08)
-                        return Theme.isDark ? Qt.rgba(0.04, 0.52, 1, 0.18) : Qt.rgba(0, 0.44, 0.89, 0.08)
+                        if (root._isLiq) return Theme.isDark ? Qt.rgba(1,1,1,0.12) : Qt.rgba(1,1,1,0.55)
+                        return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.18) : Qt.rgba(0,0.44,0.89,0.08)
                     }
                     return "transparent"
+                }
+                Behavior on color { ColorAnimation { duration: Theme.durationFast } }
+
+                // LiquidGlass active: 顶部高光
+                Rectangle {
+                    visible: root._isLiq && root.currentIndex === index
+                    anchors { top: parent.top; topMargin: 1; horizontalCenter: parent.horizontalCenter }
+                    width: parent.width * 0.5; height: 0.5
+                    radius: 1
+                    opacity: 0.40
+                    gradient: Gradient {
+                        orientation: Gradient.Horizontal
+                        GradientStop { position: 0.0; color: "transparent" }
+                        GradientStop { position: 0.5; color: "white" }
+                        GradientStop { position: 1.0; color: "transparent" }
+                    }
                 }
 
                 // Active indicator
                 Rectangle {
-                    visible: root.currentIndex === index && !root._isNeu
+                    visible: root.currentIndex === index && !root._isNeu && !root._isLiq
                     anchors {
                         left: root._horiz ? undefined : parent.left
                         bottom: root._horiz ? parent.bottom : undefined
@@ -92,6 +121,14 @@ Control {
                     x: root._horiz ? 12 : 0
                     y: root._horiz ? 0 : 6
                     radius: 2
+                    color: Theme.primary
+                }
+
+                // LiquidGlass active: 侧边指示条
+                Rectangle {
+                    visible: root._isLiq && root.currentIndex === index
+                    anchors { left: parent.left; top: parent.top; bottom: parent.bottom; topMargin: 8; bottomMargin: 8 }
+                    width: 2.5; radius: 2
                     color: Theme.primary
                 }
 

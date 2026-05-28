@@ -20,8 +20,7 @@ ApplicationWindow {
     readonly property var _styles: [
         { key: Theme.styleDefault,       name: "Default",        icon: "◈", desc: "macOS-inspired Design" },
         { key: Theme.styleNeumorphism,   name: "Neumorphism",    icon: "◉", desc: "Soft UI · Extruded Shadows" },
-        { key: Theme.styleLiquidGlass,   name: "Liquid Glass",   icon: "◊", desc: "Chromatic · Fluid · Ethereal" },
-        { key: Theme.styleGlassmorphism, name: "Glassmorphism",  icon: "◇", desc: "Frosted Glass · Backdrop Blur" }
+        { key: Theme.styleLiquidGlass,   name: "Liquid Glass",   icon: "◊", desc: "Chromatic · Fluid · Ethereal" }
     ]
 
     readonly property var _navItems: [
@@ -49,16 +48,6 @@ ApplicationWindow {
     Item {
         anchors.fill: parent
         z: -1
-
-        Rectangle {
-            visible: Theme.style === Theme.styleGlassmorphism
-            anchors.fill: parent
-            Rectangle { x: parent.width * 0.55; y: -120; width: 340; height: 340; radius: 170; color: Theme.gmBgGradientA; opacity: 0.5 }
-            Rectangle { x: parent.width * 0.75; y: parent.height * 0.2; width: 280; height: 280; radius: 140; color: Theme.gmBgGradientB; opacity: 0.4 }
-            Rectangle { x: parent.width * 0.45; y: parent.height * 0.6; width: 300; height: 300; radius: 150; color: Theme.gmBgGradientC; opacity: 0.35 }
-            layer.enabled: true
-            layer.effect: MultiEffect { blurEnabled: true; blurMax: 64; blur: 1.0 }
-        }
 
         // ── LiquidGlass: macOS 风格壁纸 ──
         Rectangle {
@@ -336,8 +325,7 @@ ApplicationWindow {
                                 if (Theme.style === modelData.key) {
                                     if (Theme.style === Theme.styleNeumorphism) return Theme.background
                                     if (Theme.style === Theme.styleLiquidGlass) return Qt.rgba(1,1,1,0.08)
-                                    if (Theme.style === Theme.styleGlassmorphism) return Qt.rgba(1,1,1,0.07)
-                                    return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.18) : Qt.rgba(0,0.44,0.89,0.08)
+                                            return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.18) : Qt.rgba(0,0.44,0.89,0.08)
                                 }
                                 return "transparent"
                             }
@@ -453,8 +441,7 @@ ApplicationWindow {
                                 if (window._currentNav === index) {
                                     if (Theme.style === Theme.styleNeumorphism) return Theme.background
                                     if (Theme.style === Theme.styleLiquidGlass) return Qt.rgba(1,1,1,0.08)
-                                    if (Theme.style === Theme.styleGlassmorphism) return Qt.rgba(1,1,1,0.07)
-                                    return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.18) : Qt.rgba(0,0.44,0.89,0.08)
+                                            return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.18) : Qt.rgba(0,0.44,0.89,0.08)
                                 }
                                 return "transparent"
                             }

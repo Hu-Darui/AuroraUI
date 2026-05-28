@@ -19,25 +19,20 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     readonly property color _rowEven: "transparent"
     readonly property color _rowOdd: {
         if (_isNeu) return Theme.background
         if (_isLiq) return Qt.rgba(1,1,1,0.02)
-        if (_isGls) return Qt.rgba(1,1,1,0.03)
         return Theme.isDark ? Qt.rgba(1,1,1,0.02) : Qt.rgba(0,0,0,0.02)
     }
     readonly property color _rowHover: {
         if (_isNeu) return Qt.rgba(0.49,0.51,1,0.08)
         if (_isLiq) return Qt.rgba(1,1,1,0.06)
-        if (_isGls) return Qt.rgba(1,1,1,0.05)
         return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.10) : Qt.rgba(0,0.44,0.89,0.06)
     }
     readonly property color _rowSelected: {
         if (_isNeu) return Qt.rgba(0.49,0.51,1,0.15)
         if (_isLiq) return Qt.rgba(0.65,0.55,0.95,0.15)
-        if (_isGls) return Qt.rgba(0.39,0.33,0.95,0.12)
         return Theme.isDark ? Qt.rgba(0.04,0.52,1,0.18) : Qt.rgba(0,0.44,0.89,0.10)
     }
     readonly property color _divider: Theme.isDark ? Qt.rgba(1,1,1,0.04) : Qt.rgba(0,0,0,0.04)
@@ -77,12 +72,6 @@ Control {
             radius: parent.radius + 6; color: Theme.neuDarkShadow
         }
 
-        // Glassmorphism
-        Rectangle {
-            visible: root._isGls
-            anchors { top: parent.top; left: parent.left; leftMargin: 1; right: parent.right; rightMargin: 1 }
-            height: 1.2; radius: parent.radius; color: Theme.gmBorderHighlight
-        }
     }
 
     contentItem: ListView {

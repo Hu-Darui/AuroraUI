@@ -17,7 +17,6 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
 
     readonly property real _opacityScale: glassOpacity >= 0 ? glassOpacity : 1.0
     readonly property real _intensityScale: glassIntensity >= 0 ? glassIntensity : 1.0
@@ -25,9 +24,7 @@ Control {
     padding: 20
     hoverEnabled: true
 
-    Behavior on scale {
-        NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
-    }
+    Behavior on scale { NumberAnimation { duration: 280; easing.type: Easing.OutCubic } }
 
     background: Item {
         implicitWidth: 400
@@ -81,7 +78,6 @@ Control {
                         : (Theme.isDark ? Theme.liquidGlass.dark.lgSurface      : Theme.liquidGlass.light.lgSurface)
                     return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * _opacityScale)
                 }
-                if (root._isGls) return Theme.elevated
                 return Theme.elevated
             }
 
@@ -91,12 +87,10 @@ Control {
             border.color: {
                 if (root.flat) return "transparent"
                 if (root._isLiq) return "transparent"
-                if (root._isGls) return Theme.gmBorderHighlight
                 return Qt.rgba(0, 0, 0, 0.06)
             }
             border.width: {
                 if (root.flat) return 0
-                if (root._isGls) return Theme.gmBorderWidth
                 return 0.5
             }
 
@@ -126,88 +120,38 @@ Control {
                 color: "white"
                 opacity: (Theme.isDark ? 0.035 : 0.08) * _intensityScale
             }
-
-            // ── Glassmorphism: 渐变底层 ──
-            Rectangle {
-                visible: !root.flat && root._isGls
-                anchors.fill: parent; radius: parent.radius
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgGradientA }
-                    GradientStop { position: 0.33; color: Theme.lgGradientB }
-                    GradientStop { position: 0.66; color: Theme.lgGradientC }
-                    GradientStop { position: 1.0; color: Theme.lgGradientD }
-                }
-                opacity: Theme.isDark ? 0.35 : 0.25
-            }
-
-            // ── Glassmorphism: 渐变模糊层 ──
-            Rectangle {
-                visible: !root.flat && root._isGls
-                anchors { fill: parent; margins: 2 }
-                radius: parent.radius - 1
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgGradientA }
-                    GradientStop { position: 0.3; color: Theme.lgGradientB }
-                    GradientStop { position: 0.7; color: Theme.lgGradientC }
-                    GradientStop { position: 1.0; color: Theme.lgGradientD }
-                }
-                opacity: Theme.isDark ? 0.2 : 0.3
-                layer.enabled: true
-                layer.effect: MultiEffect {
-                    blurEnabled: true; blurMax: Theme.lgBlurAmount
-                    blur: Theme.isDark ? 0.8 : 0.6
-                }
-            }
-
-            // ── Glassmorphism: 顶部光泽 ──
-            Rectangle {
-                visible: !root.flat && root._isGls
-                anchors { top: parent.top; left: parent.left; right: parent.right }
-                height: parent.height * 0.5; radius: parent.radius
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.lgShimmerHigh }
-                    GradientStop { position: 0.6; color: Theme.lgShimmerHigh }
-                    GradientStop { position: 0.8; color: "transparent" }
-                    GradientStop { position: 1.0; color: "transparent" }
-                }
-            }
         }
 
         // ── Drop shadow ──
-        layer.enabled: !root.flat && (root._isGls || root._isLiq) && root.elevation >= 0
+        layer.enabled: !root.flat && root._isLiq && root.elevation >= 0
         layer.effect: MultiEffect {
             shadowEnabled: true
-            shadowColor: root._isGls ? Theme.gmDropShadow
-                : root._isLiq ? Qt.rgba(0, 0, 0, 0.35)
-                : Qt.rgba(0, 0, 0, 0.35)
-            shadowBlur: root._isGls ? Theme.gmShadowBlur * 0.5
-                : root._isLiq ? 0.6
-                : 0.7
-            shadowVerticalOffset: root._isGls ? Theme.gmShadowOffset
-                : root._isLiq ? 6
-                : 6
+            shadowColor: Qt.rgba(0, 0, 0, 0.35)
+            shadowBlur: root._isLiq ? 0.6 : 0.7
+            shadowVerticalOffset: 6
         }
     }
 
-    // ── Hover 缩放（LiquidGlass: 浮动动画） ──
-    scale: {
-        if (!root._isLiq) return 1.0
-        return 1.0
-    }
-
-    // ── LiquidGlass hover 动画 ──
-    SequentialAnimation {
+    // ── LiquidGlass hover 呼吸动画 ──
+    ParallelAnimation {
         id: hoverAnim
         running: root._isLiq && root.hovered
         loops: Animation.Infinite
-        NumberAnimation { target: root; property: "scale"; to: 1.02; duration: 900; easing.type: Easing.InOutSine }
-        NumberAnimation { target: root; property: "scale"; to: 1.008; duration: 900; easing.type: Easing.InOutSine }
+        SequentialAnimation {
+            NumberAnimation { target: root; property: "scale"; from: 1.0; to: 1.012; duration: 900; easing.type: Easing.InOutSine }
+            NumberAnimation { target: root; property: "scale"; from: 1.012; to: 1.004; duration: 900; easing.type: Easing.InOutSine }
+        }
+        SequentialAnimation {
+            NumberAnimation { target: glowRect; property: "opacity"; from: 0.18 * _intensityScale; to: 0.26 * _intensityScale; duration: 900; easing.type: Easing.InOutSine }
+            NumberAnimation { target: glowRect; property: "opacity"; from: 0.26 * _intensityScale; to: 0.14 * _intensityScale; duration: 900; easing.type: Easing.InOutSine }
+        }
     }
     onHoveredChanged: {
         if (!root._isLiq) return
         if (!root.hovered) {
-            hoverAnim.running = false
+            hoverAnim.stop()
             root.scale = 1.0
+            glowRect.opacity = 0
         }
     }
 

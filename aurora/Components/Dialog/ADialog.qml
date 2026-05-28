@@ -16,7 +16,6 @@ Dialog {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
 
     modal: true
     closePolicy: Popup.CloseOnEscape
@@ -26,7 +25,6 @@ Dialog {
 
     readonly property color _bg: {
         if (_isLiq) return Qt.rgba(1, 1, 1, Theme.isDark ? 0.10 : 0.92)
-        if (_isGls) return Theme.surface
         return Theme.isDark ? "#2C2C30" : "#FFFFFF"
     }
 
@@ -69,17 +67,12 @@ Dialog {
             anchors { fill: parent; bottomMargin: -6; rightMargin: -6 }
             radius: parent.radius + 6; color: Theme.neuDarkShadow
         }
-        Rectangle {
-            visible: root._isGls
-            anchors { top: parent.top; left: parent.left; leftMargin: 1; right: parent.right; rightMargin: 1 }
-            height: 1.2; radius: parent.radius; color: Theme.gmBorderHighlight
-        }
         layer.enabled: !root._isNeu
         layer.effect: MultiEffect {
             shadowEnabled: true
             shadowColor: Qt.rgba(0, 0, 0, Theme.isDark ? 0.5 : 0.18)
             shadowBlur: 0.6
-            shadowVerticalOffset: root._isGls ? Theme.gmShadowOffset : 8
+            shadowVerticalOffset: 8
         }
     }
 

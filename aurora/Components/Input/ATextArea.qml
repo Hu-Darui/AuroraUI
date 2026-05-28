@@ -19,7 +19,6 @@ ScrollView {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
 
     implicitHeight: _h
     implicitWidth:  160
@@ -41,7 +40,6 @@ ScrollView {
             if (!enabled) return Theme.isDark ? "#222224" : "#F5F5F5"
             if (root._isNeu)  return Theme.background
             if (root._isLiq)  return Qt.rgba(1, 1, 1, 0.08)
-            if (root._isGls)  return Qt.rgba(1, 1, 1, 0.07)
             return Theme.isDark ? "#1C1C1E" : "#FFFFFF"
         }
 
@@ -50,7 +48,6 @@ ScrollView {
             if (activeFocus)      return Theme.primary
             if (root._isNeu)      return "transparent"
             if (root._isLiq)      return Theme.border
-            if (root._isGls)      return Qt.rgba(1, 1, 1, 0.10)
             return Theme.isDark ? "#48484A" : "#D1D1D6"
         }
 
@@ -58,7 +55,7 @@ ScrollView {
             radius: root._r
             color: textArea._bg
             border.color: textArea._border
-            border.width: root._isNeu ? 0 : root._isGls ? 0.8 : 0.5
+            border.width: root._isNeu ? 0 : 0.5
 
             Behavior on border.color { ColorAnimation { duration: 80 } }
 
@@ -72,8 +69,6 @@ ScrollView {
                     border.color: Theme.neuInsetLight; border.width: 0.5
                 }
             }
-
-
         }
     }
 }

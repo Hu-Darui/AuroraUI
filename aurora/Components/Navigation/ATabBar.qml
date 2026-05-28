@@ -1,11 +1,11 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import aurora 1.0
 
 Control {
     id: root
 
-    // model: [{ label: "Tab" }]
     property var model: []
     property int currentIndex: 0
     property bool scrollable: true
@@ -14,19 +14,41 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
+    readonly property color _bg: {
+        if (_isLiq) return Theme.isDark ? Qt.rgba(1,1,1,0.05) : Qt.rgba(1,1,1,0.30)
+        return Theme.elevated
+    }
 
     implicitWidth: 400
     implicitHeight: 44
 
     background: Rectangle {
-        color: Theme.elevated
+        color: root._bg
 
+        // Bottom separator
         Rectangle {
             anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
             height: 0.5
-            color: Theme.isDark ? Qt.rgba(1, 1, 1, 0.06) : Qt.rgba(0, 0, 0, 0.06)
+            color: root._isLiq
+                ? (Theme.isDark ? Qt.rgba(1,1,1,0.12) : Qt.rgba(0,0,0,0.08))
+                : (Theme.isDark ? Qt.rgba(1,1,1,0.06) : Qt.rgba(0,0,0,0.06))
         }
+
+        // LiquidGlass: 顶部高光
+        Rectangle {
+            visible: root._isLiq
+            anchors { top: parent.top; topMargin: 0.5; horizontalCenter: parent.horizontalCenter }
+            width: parent.width * 0.4; height: 0.8
+            radius: 1
+            opacity: Theme.isDark ? 0.35 : 0.30
+            gradient: Gradient {
+                orientation: Gradient.Horizontal
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 0.5; color: "white" }
+                GradientStop { position: 1.0; color: "transparent" }
+            }
+        }
+
     }
 
     contentItem: ListView {
@@ -47,13 +69,28 @@ Control {
             Rectangle {
                 id: tabBg
                 anchors { fill: parent; bottomMargin: 2 }
+                radius: Theme.radiusSm
                 color: root.currentIndex === index
                     ? (root._isNeu ? Theme.background
-                        : root._isLiq ? Qt.rgba(1, 1, 1, 0.06)
-                        : root._isGls ? Qt.rgba(1, 1, 1, 0.05)
-                        : Theme.isDark ? Qt.rgba(0.04, 0.52, 1, 0.10) : Qt.rgba(0, 0.44, 0.89, 0.05))
+                        : root._isLiq ? (Theme.isDark ? Qt.rgba(1,1,1,0.12) : Qt.rgba(1,1,1,0.55))
+                        : Theme.isDark ? Qt.rgba(0.04,0.52,1,0.10) : Qt.rgba(0,0.44,0.89,0.05))
                     : "transparent"
                 Behavior on color { ColorAnimation { duration: Theme.durationFast } }
+
+                // LiquidGlass active: 顶部高光
+                Rectangle {
+                    visible: root._isLiq && root.currentIndex === index
+                    anchors { top: parent.top; topMargin: 1; horizontalCenter: parent.horizontalCenter }
+                    width: parent.width * 0.5; height: 0.5
+                    radius: 1
+                    opacity: 0.40
+                    gradient: Gradient {
+                        orientation: Gradient.Horizontal
+                        GradientStop { position: 0.0; color: "transparent" }
+                        GradientStop { position: 0.5; color: "white" }
+                        GradientStop { position: 1.0; color: "transparent" }
+                    }
+                }
             }
 
             // Active underline

@@ -16,7 +16,6 @@ qt_add_qml_module(aurora_gallery
         pages/FeedbackPage.qml
         pages/DataPage.qml
         pages/DefaultPage.qml
-        pages/GlassmorphismPage.qml
         pages/LiquidGlassPage.qml
         pages/NeumorphismPage.qml
     RESOURCES

@@ -11,8 +11,6 @@ Control {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     readonly property int _sz: size === "sm" ? 40 : size === "lg" ? 84 : 60
     readonly property real _sw: size === "sm" ? 3 : size === "lg" ? 6 : 4.5
 
@@ -22,14 +20,12 @@ Control {
     readonly property color _trackColor: {
         if (_isNeu) return Theme.background
         if (_isLiq) return Qt.rgba(1, 1, 1, 0.06)
-        if (_isGls) return Qt.rgba(1, 1, 1, 0.08)
         return Theme.isDark ? "#3A3A3C" : "#E5E5EA"
     }
 
     readonly property color _fillColor: {
         if (_isNeu) return Theme.primary
         if (_isLiq) return "#A78BFA"
-        if (_isGls) return "#818CF8"
         return Theme.primary
     }
 
@@ -94,12 +90,6 @@ Control {
                 }
             }
 
-            // ── Glassmorphism: 环上高光 ──
-            layer.enabled: root._isGls && root.value > 0
-            layer.effect: MultiEffect {
-                shadowEnabled: true; shadowColor: Theme.gmDropShadow
-                shadowBlur: 0.4; shadowVerticalOffset: 2
-            }
         }
 
         // Center label

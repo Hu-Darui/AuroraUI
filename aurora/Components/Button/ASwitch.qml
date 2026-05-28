@@ -20,8 +20,6 @@ Item {
 
     readonly property bool _isNeu: Theme.style === Theme.styleNeumorphism
     readonly property bool _isLiq: Theme.style === Theme.styleLiquidGlass
-    readonly property bool _isGls: Theme.style === Theme.styleGlassmorphism
-
     implicitWidth: _tw
     implicitHeight: _th
 
@@ -29,13 +27,11 @@ Item {
     readonly property color _trackOn: {
         if (_isNeu) return Theme.primary
         if (_isLiq) return Qt.rgba(0.65, 0.55, 0.95, 0.8)
-        if (_isGls) return Qt.rgba(0.39, 0.33, 0.95, 0.65)
         return Theme.isDark ? "#0A84FF" : "#0071E3"
     }
     readonly property color _trackOff: {
         if (_isNeu) return Theme.background
         if (_isLiq) return Qt.rgba(1, 1, 1, 0.12)
-        if (_isGls) return Qt.rgba(1, 1, 1, 0.10)
         return Theme.isDark ? "#3A3A3C" : "#E0E0E0"
     }
 
@@ -43,7 +39,6 @@ Item {
     readonly property color _knobColor: {
         if (_isNeu) return Theme.elevated
         if (_isLiq) return Qt.rgba(1, 1, 1, 0.95)
-        if (_isGls) return Qt.rgba(1, 1, 1, 0.92)
         return Theme.isDark ? "#F0F0F0" : "#FFFFFF"
     }
 
@@ -83,14 +78,6 @@ Item {
             border.width: 1
         }
 
-        // Glassmorphism: 高光边框
-        Rectangle {
-            visible: _isGls
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            height: 1.2
-            radius: parent.radius
-            color: root.checked ? Qt.rgba(1, 1, 1, 0.3) : Qt.rgba(1, 1, 1, 0.08)
-        }
     }
 
     // ── 旋钮 ──
@@ -125,7 +112,7 @@ Item {
         layer.enabled: !_isNeu
         layer.effect: MultiEffect {
             shadowEnabled: true
-            shadowColor: _isGls || _isLiq
+            shadowColor: _isLiq
                 ? Qt.rgba(0, 0, 0, 0.22)
                 : Qt.rgba(0, 0, 0, Theme.isDark ? 0.4 : 0.15)
             shadowBlur: 0.3
